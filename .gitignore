@@ -229,3 +229,5 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+Budget/Web.config
+Budget/Views/Web.config

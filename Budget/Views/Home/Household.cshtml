@@ -1,0 +1,33 @@
+﻿@model Budget.Models.Household
+
+
+<div class="page-header position-relative">
+    <div class="header-title">
+        <h1>
+             @Model.Name
+        </h1>
+    </div>
+   
+    <div class="row">
+
+       
+       
+                <div class="col-lg-6 col-sm-6 col-xs-12">
+                    <h4 class="block">Users</h4>
+                    @foreach (var user in Model.Users)
+                    {
+                        <p>
+                            @user.Name
+                        </p>
+                    }
+                </div>
+            <div class="col-lg-6 col-sm-6 col-xs-12">
+                
+                <button type='button'>@Html.ActionLink("Invite", "InviteToHousehold")</button> 
+                <button type='button'>@Html.ActionLink("Leave", "LeaveHousehold")</button> 
+            </div>
+        
+        
+        
+    </div>
+ </div>
