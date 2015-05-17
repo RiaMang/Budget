@@ -177,6 +177,7 @@
     <Compile Include="HelperExtensions\DbExtensions.cs" />
     <Compile Include="HelperExtensions\HouseholdHelpers.cs" />
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Controllers\AccountsController.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CodeFirst\Account.cs" />
     <Compile Include="Models\CodeFirst\BudgetItem.cs" />
@@ -750,6 +751,19 @@
     <Content Include="Views\Account\ConfirmationSent.cshtml" />
     <Content Include="Views\Account\UserAccount.cshtml" />
     <Content Include="Views\Home\InviteToHousehold.cshtml" />
+    <Content Include="Web.config" />
+    <Content Include="Views\Accounts\Create.cshtml" />
+    <Content Include="Views\Accounts\Delete.cshtml" />
+    <Content Include="Views\Accounts\Details.cshtml" />
+    <Content Include="Views\Accounts\Edit.cshtml" />
+    <Content Include="Views\Accounts\Index.cshtml" />
+    <Content Include="Views\Shared\_Empty.cshtml" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

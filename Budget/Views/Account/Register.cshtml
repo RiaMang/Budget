@@ -4,7 +4,64 @@
 }
 
 
-<div class="page-header position-relative">
+<div class="register-container animated fadeInDown">
+    <div class="registerbox bg-white">
+        <div class="registerbox-title">Register</div>
+@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+    @Html.AntiForgeryToken()
+        <div class="registerbox-caption ">Please fill in your information</div>
+        @Html.ValidationSummary("", new { @class = "text-danger" })
+        <div class="registerbox-textbox">
+            <div class="form-group">
+                @Html.LabelFor(m => m.Email, new { @class = "col-md-3 control-label" })
+                <div class="col-md-9">
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder="Email" })
+                </div>
+                </div>
+        </div>
+        <div class="registerbox-textbox">
+            <div class="form-group">
+                @Html.LabelFor(m => m.Password, new { @class = "col-md-3 control-label" })
+                <div class="col-md-9">
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholer="Password" })
+                </div>
+                </div>
+        </div>
+        <div class="registerbox-textbox">
+            <div class="form-group">
+                @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-3 control-label" })
+                <div class="col-md-9">
+                    @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", placehoder="Confirm Password" })
+                </div>
+             </div>
+        </div>
+        <hr class="wide" />
+        <div class="registerbox-textbox">
+            <div class="form-group">
+                @Html.LabelFor(m => m.Name, new { @class = "col-md-3 control-label" })
+                <div class="col-md-9">
+                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control", placeholder="Name" })
+                 </div>
+            </div>
+        </div>
+    <div class="registerbox-textbox">
+        <div class="registerbox-submit">
+            <input type="submit" class="btn btn-default" value="Register" />
+        </div>
+        </div>
+        }
+    </div>
+
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("/bundles/jqueryval")
+}
+
+
+@*<div class="page-header position-relative">
     <div class="header-title">
         <h1>
             @ViewBag.Title
@@ -51,8 +108,6 @@
             }
         </div>
     </div>
-    </div>
+    </div>*@
 
-@section Scripts {
-    @Scripts.Render("/bundles/jqueryval")
-}
+
