@@ -1,36 +1,55 @@
 ﻿@model Budget.Models.Household
 
 
-<div class="page-header position-relative">
-    <div class="header-title">
-        <h1>
-             @Model.Name
-        </h1>
-    </div>
-   
+<div class="page-body">
     <div class="row">
-
-       
-       
-                <div class="col-lg-6 col-sm-6 col-xs-12">
-                    <h4 class="block">Users</h4>
-                    @foreach (var user in Model.Users)
-                    {
-                        <p>
-                            @user.Name
-                        </p>
-                    }
+        <div class="col-lg-6 col-sm-6 col-xs-12">
+            <div class="widget">
+                <div class="widget-header bordered-bottom bordered-blue">
+                    <span class="widget-caption">@Model.Name - Users</span>
                 </div>
-            <div class="col-lg-6 col-sm-6 col-xs-12">
-                <br />
-                <br />
-                <button type='button'>@Html.ActionLink("Invite", "InviteToHousehold")</button> 
-                <br />
-                <br />
-                <button type='button'>@Html.ActionLink("Leave", "LeaveHousehold")</button> 
+                <div class="widget-body">
+                    
+                        @foreach (var user in Model.Users)
+                        {
+                            <p>
+                                @user.Name
+                            </p>
+                        }
+                        
+                           
+                            <br />
+                            <button type='button'>@Html.ActionLink("Invite", "InviteToHousehold")</button>
+                            <span> </span>
+                            <button type='button' data-target="#Leave" data-toggle="modal">Leave Group</button>
+                       
+                </div>
+
+
             </div>
-        
-        
-        
+        </div>
     </div>
- </div>
+
+</div>
+
+
+
+
+                <div class="modal modal-primary" id="Leave" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4 class="modal-title">Leave Group</h4>
+                            </div>
+                            <div class="modal-body">
+                                <p>If you leave the group, you will no longer have access to your Accounts, Transactions and Budget. Are you sure you want to leave the group ? </p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-warning" data-dismiss="modal">Cancel</button>
+                                <button type="button" class="btn btn-primary">@Html.ActionLink("Leave Group", "LeaveHousehold", null, new { @style="color:#fff"})</button>
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
+           

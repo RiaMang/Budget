@@ -18,7 +18,10 @@ namespace Budget.Models
         // GET: Accounts
         public ActionResult Index()
         {
-            var accounts = db.Accounts.Include(a => a.Household);
+            //var user = db.Users.Find(User.Identity.GetUserId());
+            var hh = db.Households.Find(Convert.ToInt32(User.Identity.GetHouseholdId()));
+            var accounts = hh.Accounts.AsQueryable().Include(a => a.Household);
+            
             return View(accounts.ToList());
         }
 
@@ -53,7 +56,7 @@ namespace Budget.Models
         {
             if (ModelState.IsValid)
             {
-                account.HouseholdId = (int)db.Users.Find(User.Identity.GetUserId()).HouseholdId;
+                account.HouseholdId = Convert.ToInt32(User.Identity.GetHouseholdId());
                 db.Accounts.Add(account);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -97,24 +100,24 @@ namespace Budget.Models
         }
 
         // GET: Accounts/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Account account = db.Accounts.Find(id);
-            if (account == null)
-            {
-                return HttpNotFound();
-            }
-            return View(account);
-        }
+        //public ActionResult Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    Account account = db.Accounts.Find(id);
+        //    if (account == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(account);
+        //}
 
         // POST: Accounts/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        
+        
+        public ActionResult Delete(int id)
         {
             Account account = db.Accounts.Find(id);
             db.Accounts.Remove(account);

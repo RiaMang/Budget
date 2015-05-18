@@ -1,42 +1,42 @@
 ﻿@model Budget.Models.Invitation
 
 
-<div class="page-header position-relative">
-    <div class="header-title">
-        <h1>
-            Invitation
-        </h1>
-    </div>
+<div class="page-body">
     <div class="row">
-        <div class="col-md-6">
-            @using (Html.BeginForm())
-            { 
-                @Html.AntiForgeryToken()
-                <div class="form-horizontal">
-            <h2>Invite a User</h2>
-              @Html.ValidationSummary(true, "", new { @class = "text-danger"}) 
-                    <p>Enter the user's email address</p>
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" value="Invite" class="btn btn-default" />
-                        </div>
-                    </div>
+        <div class="col-lg-6 col-sm-6 col-xs-12">
+            <div class="widget">
+                <div class="widget-header bordered-bottom bordered-blue">
+                    <span class="widget-caption">Invite a user</span>
                 </div>
-            }
-            
+                <div class="widget-body">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="form-horizontal">
+                            
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <p>Please enter the user's email address.</p>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <input type="submit" value="Invite" class="btn btn-default" />
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                </div>
+
+            </div>
         </div>
-        
     </div>
-
-
 
 </div>
 

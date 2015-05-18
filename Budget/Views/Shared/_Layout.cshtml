@@ -9,7 +9,7 @@ Purchase: http://wrapbootstrap.com
 <!-- Head -->
 <head>
     <meta charset="utf-8" />
-    <title>Dashboard</title>
+    <title>Personal Finances</title>
 
     <meta name="description" content="Dashboard" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -51,11 +51,9 @@ Purchase: http://wrapbootstrap.com
         <div class="navbar-inner">
             <div class="navbar-container">
                 <!-- Navbar Barnd -->
-                <div class="navbar-header pull-left">
+                <div class="navbar-header pull-left" style="padding-top:10px">
                     <a href="#" class="navbar-brand">
-                        <small>
-                            <img src="assets/img/logo.png" alt="" />
-                        </small>
+                        Personal Finances
                     </a>
                 </div>
                 <!-- /Navbar Barnd -->
@@ -293,62 +291,8 @@ Purchase: http://wrapbootstrap.com
                             <li>
                                 @Html.Partial("_LoginPartial")
                             </li>
-                            <li>
-                                <a class="login-area dropdown-toggle" data-toggle="dropdown">
-                                    <div class="avatar" title="View your public profile">
-                                        <img src="/assets/img/avatars/adam-jansen.jpg">
-                                    </div>
-                                    <section>
-                                        <h2><span class="profile"><span>David Stevenson</span></span></h2>
-                                    </section>
-                                </a>
-                                <!--Login Area Dropdown-->
-                                <ul class="pull-right dropdown-menu dropdown-arrow dropdown-login-area">
-                                    <li class="username"><a>David Stevenson</a></li>
-                                    <li class="email"><a>David.Stevenson@live.com</a></li>
-                                    <!--Avatar Area-->
-                                    <li>
-                                        <div class="avatar-area">
-                                            <img src="/assets/img/avatars/adam-jansen.jpg" class="avatar">
-                                            <span class="caption">Change Photo</span>
-                                        </div>
-                                    </li>
-                                    <!--Avatar Area-->
-                                    <li class="edit">
-                                        <a href="profile.html" class="pull-left">Profile</a>
-                                        <a href="#" class="pull-right">Setting</a>
-                                    </li>
-                                   
-                                    
-                                </ul>
-                                <!--/Login Area Dropdown-->
-                            </li>
-                            <!-- /Account Area -->
-                            <!--Note: notice that setting div must start right after account area list.
-                            no space must be between these elements-->
-                            <!-- Settings -->
-                        </ul><div class="setting">
-                            <a id="btn-setting" title="Setting" href="#">
-                                <i class="icon glyphicon glyphicon-cog"></i>
-                            </a>
-                        </div><div class="setting-container">
-                            <label>
-                                <input type="checkbox" id="checkbox_fixednavbar">
-                                <span class="text">Fixed Navbar</span>
-                            </label>
-                            <label>
-                                <input type="checkbox" id="checkbox_fixedsidebar">
-                                <span class="text">Fixed SideBar</span>
-                            </label>
-                            <label>
-                                <input type="checkbox" id="checkbox_fixedbreadcrumbs">
-                                <span class="text">Fixed BreadCrumbs</span>
-                            </label>
-                            <label>
-                                <input type="checkbox" id="checkbox_fixedheader">
-                                <span class="text">Fixed Header</span>
-                            </label>
-                        </div>
+                            
+                        </ul>
                         <!-- Settings -->
                     </div>
                 </div>
@@ -400,7 +344,6 @@ Purchase: http://wrapbootstrap.com
                         <a href="#" class="menu-dropdown">
                             <i class="menu-icon glyphicon glyphicon-tasks" ></i>
                             <span class="menu-text"> Transactions </span>
-                            <i class="menu-expand"></i>
                         </a>
                     </li>
                     <!--Budget-->

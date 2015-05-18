@@ -1,43 +1,55 @@
 ﻿@model Budget.Models.Account
 
-<div class="page-header position-relative">
-    <div class="header-title">
-        <h1>
-            @Model.Name
-        </h1>
+<div class="page-body">
+    
+    <div class="row">
+        <div class="col-xs-12 col-md-6">
+            <div class="well with-header  with-footer">
+                <div class="header bg-blue">
+                    @Model.Name <span>   -    </span>@Model.Balance
+                </div>
+                <table class="table table-hover">
+                    <thead class="bordered-darkorange">
+                        <tr>
+                            <th>
+                                #
+                            </th>
+                            <th>
+                                Name
+                            </th>
+                            <th>
+                                Family
+                            </th>
+                            <th>
+                                Username
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                1
+                            </td>
+                            <td>
+                                Steve
+                            </td>
+                            <td>
+                                Jobs
+                            </td>
+                            <td>
+                                steve
+                            </td>
+                        </tr>
+
+
+
+                    </tbody>
+                </table>
+            </div>
+            <p>
+                @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+                @Html.ActionLink("Back to List", "Index")
+            </p>
+        </div>
+      </div>
     </div>
-    <div>
-        <h4>Account</h4>
-        <hr />
-        <dl class="dl-horizontal">
-            @*<dt>
-                @Html.DisplayNameFor(model => model.Household.Name)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Household.Name)
-            </dd>*@
-
-            <dt>
-                @Html.DisplayNameFor(model => model.Name)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Name)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.Balance)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Balance)
-            </dd>
-
-        </dl>
-    </div>
-    <p>
-        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-        @Html.ActionLink("Back to List", "Index")
-    </p>
-  </div> 

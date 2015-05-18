@@ -2,28 +2,338 @@
     ViewBag.Title = "Home Page";
 }
 
-<div class="page-header position-relative">
-    <div class="header-title">
-        <h1>
-            Register
-        </h1>
-    </div>
+<div class="page-body">
+    
+<!-----Table-->
+
     <div class="row">
-        <div class="col-md-6">
-            <h1>A/c Balances</h1>
+        <div class="col-xs-12 col-md-12">
+            <div class="widget">
+                <div class="widget-header ">
+                    <span class="widget-caption">Editable DataTable</span>
+                    <div class="widget-buttons">
+                        <a href="#" data-toggle="maximize">
+                            <i class="fa fa-expand"></i>
+                        </a>
+                        <a href="#" data-toggle="collapse">
+                            <i class="fa fa-minus"></i>
+                        </a>
+                        <a href="#" data-toggle="dispose">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="widget-body">
+                    <div class="table-toolbar">
+                        <a id="editabledatatable_new" href="javascript:void(0);" class="btn btn-default">
+                            Add New User
+                        </a>
+                        <div class="btn-group pull-right">
+                            <a class="btn btn-default" href="javascript:void(0);">Tools</a>
+                            <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);"><i class="fa fa-angle-down"></i></a>
+                            <ul class="dropdown-menu dropdown-default">
+                                <li>
+                                    <a href="javascript:void(0);">Action</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);">Another action</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);">Something else here</a>
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <a href="javascript:void(0);">Separated link</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <table class="table table-striped table-hover table-bordered" id="editabledatatable">
+                        <thead>
+                            <tr role="row">
+                                <th>
+                                    Username
+                                </th>
+                                <th>
+                                    Full Name
+                                </th>
+                                <th>
+                                    Points
+                                </th>
+                                <th>
+                                    Notes
+                                </th>
+                                <th>
+
+                                </th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+                                <td>alex</td>
+                                <td>Alex Nilson</td>
+                                <td>1234</td>
+                                <td class="center ">power user</td>
+                                <td>
+                                    <a href="#" class="btn btn-info btn-xs edit"><i class="fa fa-edit"></i> Edit</a>
+                                    <a href="#" class="btn btn-danger btn-xs delete"><i class="fa fa-trash-o"></i> Delete</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    gist124
+                                </td>
+                                <td>
+                                    Nick Roberts
+                                </td>
+                                <td>
+                                    62
+                                </td>
+                                <td class="center ">
+                                    new user
+                                </td>
+                                <td>
+                                    <a href="#" class="btn btn-info btn-xs edit"><i class="fa fa-edit"></i> Edit</a>
+                                    <a href="#" class="btn btn-danger btn-xs delete"><i class="fa fa-trash-o"></i> Delete</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    goldweb
+                                </td>
+                                <td>
+                                    Sergio Jackson
+                                </td>
+                                <td>
+                                    132
+                                </td>
+                                <td class="center ">
+                                    elite user
+                                </td>
+                                <td>
+                                    <a href="#" class="btn btn-info btn-xs edit"><i class="fa fa-edit"></i> Edit</a>
+                                    <a href="#" class="btn btn-danger btn-xs delete"><i class="fa fa-trash-o"></i> Delete</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    lisa
+                                </td>
+                                <td>
+                                    Lisa Wong
+                                </td>
+                                <td>
+                                    434
+                                </td>
+                                <td class="center ">
+                                    new user
+                                </td>
+                                <td>
+                                    <a href="#" class="btn btn-info btn-xs edit"><i class="fa fa-edit"></i> Edit</a>
+                                    <a href="#" class="btn btn-danger btn-xs delete"><i class="fa fa-trash-o"></i> Delete</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    nick12
+                                </td>
+                                <td>
+                                    Nick Roberts
+                                </td>
+                                <td>
+                                    232
+                                </td>
+                                <td class="center ">
+                                    power user
+                                </td>
+                                <td>
+                                    <a href="#" class="btn btn-info btn-xs edit"><i class="fa fa-edit"></i> Edit</a>
+                                    <a href="#" class="btn btn-danger btn-xs delete"><i class="fa fa-trash-o"></i> Delete</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    webriver
+                                </td>
+                                <td>
+                                    Antonio Sanches
+                                </td>
+                                <td>
+                                    462
+                                </td>
+                                <td class="center ">
+                                    new user
+                                </td>
+                                <td>
+                                    <a href="#" class="btn btn-info btn-xs edit"><i class="fa fa-edit"></i> Edit</a>
+                                    <a href="#" class="btn btn-danger btn-xs delete"><i class="fa fa-trash-o"></i> Delete</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-    <div class="col-md-6">
-        <h1>Budget Vs Spending</h1>
     </div>
-    </div>
+
+    <!---End Table-->
     <div class="row">
-        <div><h1>Transactions</h1></div>
+        <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+            <div class="databox databox-xxlg databox-vertical databox-inverted">
+                <div class="databox-top bg-whitesmoke no-padding">
+                    <div class="databox-row row-2 bg-blue no-padding">
+                        <div class="databox-cell cell-1 text-align-center no-padding padding-top-5">
+                            <span class="databox-number white"><i class="fa fa-bar-chart-o no-margin"></i></span>
+                        </div>
+                        <div class="databox-cell cell-8 no-padding padding-top-5 text-align-left">
+                            <span class="databox-number white">PAGE VIEWS</span>
+                        </div>
+                        <div class="databox-cell cell-3 text-align-right padding-10">
+                            <span class="databox-text white">13 DECEMBER</span>
+                        </div>
+                    </div>
+                    <div class="databox-row row-4">
+                        <div class="databox-cell cell-6 no-padding padding-10 padding-left-20 text-align-left">
+                            <span class="databox-number orange no-margin">534,908</span>
+                            <span class="databox-text sky no-margin">OVERAL VIEWS</span>
+                        </div>
+                        <div class="databox-cell cell-2 no-padding padding-10 text-align-left">
+                            <span class="databox-number orange no-margin">4,129</span>
+                            <span class="databox-text darkgray no-margin">THIS WEEK</span>
+                        </div>
+                        <div class="databox-cell cell-2 no-padding padding-10 text-align-left">
+                            <span class="databox-number orange no-margin">329</span>
+                            <span class="databox-text darkgray no-margin">YESTERDAY</span>
+                        </div>
+                        <div class="databox-cell cell-2 no-padding padding-10 text-align-left">
+                            <span class="databox-number orange no-margin">104</span>
+                            <span class="databox-text darkgray no-margin">TODAY</span>
+                        </div>
+                    </div>
+                    <div class="databox-row row-6 no-padding">
+                        <div class="databox-sparkline">
+                            <span data-sparkline="line" data-height="126px" data-width="100%" data-fillcolor="#37c2e2" data-linecolor="#37c2e2"
+                                  data-spotcolor="#fafafa" data-minspotcolor="#fafafa" data-maxspotcolor="#ffce55"
+                                  data-highlightspotcolor="#f5f5f5 " data-highlightlinecolor="#f5f5f5"
+                                  data-linewidth="2" data-spotradius="0">
+                                5,7,6,5,9,4,3,7,2
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="databox-bottom bg-sky no-padding">
+                    <div class="databox-cell cell-2 text-align-center no-padding padding-top-5">
+                        <span class="databox-header white">Mon</span>
+                    </div>
+                    <div class="databox-cell cell-2 text-align-center no-padding padding-top-5">
+                        <span class="databox-header white">Tues</span>
+                    </div>
+                    <div class="databox-cell cell-2 text-align-center no-padding padding-top-5">
+                        <span class="databox-header white">Wed</span>
+                    </div>
+                    <div class="databox-cell cell-2 text-align-center no-padding padding-top-5">
+                        <span class="databox-header white">Thu</span>
+                    </div>
+                    <div class="databox-cell cell-2 text-align-center no-padding padding-top-5">
+                        <span class="databox-header white">Fri</span>
+                    </div>
+                    <div class="databox-cell cell-2 text-align-center no-padding padding-top-5">
+                        <span class="databox-header white">Sat</span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+            <div class="databox databox-xxlg databox-vertical databox-shadowed bg-white radius-bordered padding-5">
+                <div class="databox-top">
+                    <div class="databox-row row-12">
+                        <div class="databox-cell cell-3 text-center">
+                            <div class="databox-number number-xxlg sonic-silver">164</div>
+                            <div class="databox-text storm-cloud">online</div>
+                        </div>
+                        <div class="databox-cell cell-9 text-align-center">
+                            <div class="databox-row row-6 text-left">
+                                <span class="badge badge-palegreen badge-empty margin-left-5"></span>
+                                <span class="databox-inlinetext uppercase darkgray margin-left-5">NEW</span>
+                                <span class="badge badge-yellow badge-empty margin-left-5"></span>
+                                <span class="databox-inlinetext uppercase darkgray margin-left-5">RETURNING</span>
+                            </div>
+                            <div class="databox-row row-6">
+                                <div class="progress bg-yellow progress-no-radius">
+                                    <div class="progress-bar progress-bar-palegreen" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 78%">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="databox-bottom">
+                    <div class="databox-row row-12">
+                        <div class="databox-cell cell-7 text-center  padding-5">
+                            <div id="dashboard-pie-chart-sources" class="chart"></div>
+                        </div>
+                        <div class="databox-cell cell-5 text-center no-padding-left padding-bottom-30">
+                            <div class="databox-row row-2 bordered-bottom bordered-ivory padding-10">
+                                <span class="databox-text sonic-silver pull-left no-margin">Type</span>
+                                <span class="databox-text sonic-silver pull-right no-margin uppercase">PCT</span>
+                            </div>
+                            <div class="databox-row row-2 bordered-bottom bordered-ivory padding-10">
+                                <span class="badge badge-blue badge-empty pull-left margin-5"></span>
+                                <span class="databox-text darkgray pull-left no-margin hidden-xs">FEED</span>
+                                <span class="databox-text darkgray pull-right no-margin uppercase">46%</span>
+                            </div>
+                            <div class="databox-row row-2 bordered-bottom bordered-ivory padding-10">
+                                <span class="badge badge-orange badge-empty pull-left margin-5"></span>
+                                <span class="databox-text darkgray pull-left no-margin hidden-xs">PREFERRAL</span>
+                                <span class="databox-text darkgray pull-right no-margin uppercase">21%</span>
+                            </div>
+                            <div class="databox-row row-2 bordered-bottom bordered-ivory padding-10">
+                                <span class="badge badge-pink badge-empty pull-left margin-5"></span>
+                                <span class="databox-text darkgray pull-left no-margin hidden-xs">DIRECT</span>
+                                <span class="databox-text darkgray pull-right no-margin uppercase">12%</span>
+                            </div>
+                            <div class="databox-row row-2 bordered-bottom bordered-ivory padding-10">
+                                <span class="badge badge-palegreen badge-empty pull-left margin-5"></span>
+                                <span class="databox-text darkgray pull-left no-margin hidden-xs">EMAIL</span>
+                                <span class="databox-text darkgray pull-right no-margin uppercase">11%</span>
+                            </div>
+                            <div class="databox-row row-2 padding-10">
+                                <span class="badge badge-yellow badge-empty pull-left margin-5"></span>
+                                <span class="databox-text darkgray pull-left no-margin hidden-xs">ORGANIC</span>
+                                <span class="databox-text darkgray pull-right no-margin uppercase">10%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
-
-
-
-
-
-
-
 </div>
+
+   
+
+
+
+                @*<div class="page-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h1>A/c Balances</h1>
+                        </div>
+                        <div class="col-md-6">
+                            <h1>Budget Vs Spending</h1>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div><h1>Transactions</h1></div>
+                    </div>
+
+
+
+
+
+
+
+                </div>*@
