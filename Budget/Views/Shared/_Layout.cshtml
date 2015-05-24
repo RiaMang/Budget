@@ -320,7 +320,7 @@ Purchase: http://wrapbootstrap.com
                 <ul class="nav sidebar-menu">
                     <!--Dashboard-->
                     <li class="active">
-                        <a href="@Url.Action("Index", "home")">
+                        <a href="@Url.Action("Dashboard", "home")">
                             <i class="menu-icon glyphicon glyphicon-home"></i>
                             <span class="menu-text"> Dashboard </span>
                         </a>
@@ -341,14 +341,14 @@ Purchase: http://wrapbootstrap.com
                     </li>
                     <!--Transactions-->
                     <li>
-                        <a href="#" class="menu-dropdown">
-                            <i class="menu-icon glyphicon glyphicon-tasks" ></i>
+                        <a href="@Url.Action("TransByType", "Transactions")">
+                            <i class="menu-icon glyphicon glyphicon-tasks"></i>
                             <span class="menu-text"> Transactions </span>
                         </a>
                     </li>
                     <!--Budget-->
                     <li>
-                        <a href="#" class="menu-dropdown">
+                        <a href="@Url.Action("Index","BudgetItems")" class="menu-dropdown">
                             <i class="menu-icon fa fa-table"></i>
                             <span class="menu-text"> Budget </span>
                         </a>

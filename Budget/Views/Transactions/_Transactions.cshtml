@@ -1,0 +1,54 @@
+﻿
+@model IEnumerable<Budget.Models.Transaction>
+
+<table class="table table-hover">
+    <thead class="bordered-darkorange">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TransDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CategoryId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Amount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RecAmount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UpdatedBy)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var trans in Model)
+        { 
+        <tr>
+            <td>
+                @trans.TransDate.DateTime.ToLongDateString())
+            </td>
+            <td>
+                @Html.DisplayFor(model => trans.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(model => trans.CategoryId)
+            </td>
+            <td>
+                @Html.DisplayFor(model => trans.Amount)
+            </td>
+            <td>
+                @Html.DisplayFor(model => trans.RecAmount)
+            </td>
+            <td>
+                @Html.DisplayFor(model => trans.UpdatedBy)
+            </td>
+        </tr>
+        }
+
+
+    </tbody>
+</table>

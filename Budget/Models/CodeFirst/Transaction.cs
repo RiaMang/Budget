@@ -11,11 +11,11 @@ namespace Budget.Models
         public int Id { get; set; }
         [Required]
         public string Description { get; set; }
-        public string Type { get; set; }
         public DateTimeOffset TransDate { get; set; }
         [Required]
         public decimal Amount { get; set; }
         public decimal RecAmount { get; set; }
+        public string UpdatedBy { get; set; }
         public int AccountId { get; set; }
         public int? CategoryId { get; set; }
 

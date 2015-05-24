@@ -1,6 +1,4 @@
 ﻿@model IEnumerable<Budget.Models.Account>
-
-
     
 <div class="page-body">
     
@@ -34,9 +32,9 @@
                                     @Html.DisplayFor(modelItem => item.Balance)
                                 </td>
                                 <td>
-                                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                                    <a href="" data-toggle="modal" data-target="#@item.Id">Delete</a>
+                                    <i class="icon glyphicon glyphicon-edit"></i> @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                                    <i class="icon glyphicon glyphicon-list"></i> @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                                    <i class="icon glyphicon glyphicon-trash"></i><a href="" data-toggle="modal" data-target="#@item.Id">Delete</a>
                                     
                                 </td>
                             </tr>
@@ -44,7 +42,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icon glyphicon glyphicon-remove"></i></button>
                     <h4 class="modal-title">Delete Account</h4>
                 </div>
                 <div class="modal-body">
@@ -54,8 +52,17 @@
                         @Html.DisplayFor(modelItem => item.Balance)</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-warning" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary">@Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @style = "color:#fff" })</button>
+                    <button type="button" class="btn btn-warning" data-dismiss="modal"><i class="icon glyphicon glyphicon-remove"></i>Cancel</button>
+                    @using (Html.BeginForm("Delete","Accounts","HttpPost"))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.Hidden("id",item.Id)
+                        <div class="form-actions no-color">
+                            
+                            <button type="submit" value="Delete" class="btn btn-primary"><i class="icon glyphicon glyphicon-trash"></i>Delete</button>
+                        </div>
+                    }
+                    
 
                 </div>
             </div><!-- /.modal-content -->

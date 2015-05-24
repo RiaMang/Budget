@@ -1,55 +1,120 @@
-﻿@model Budget.Models.Account
+﻿
+@model Budget.Models.Account
 
 <div class="page-body">
     
     <div class="row">
-        <div class="col-xs-12 col-md-6">
+        <div class="col-md-8">
             <div class="well with-header  with-footer">
                 <div class="header bg-blue">
                     @Model.Name <span>   -    </span>@Model.Balance
                 </div>
-                <table class="table table-hover">
-                    <thead class="bordered-darkorange">
-                        <tr>
-                            <th>
-                                #
-                            </th>
-                            <th>
-                                Name
-                            </th>
-                            <th>
-                                Family
-                            </th>
-                            <th>
-                                Username
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                1
-                            </td>
-                            <td>
-                                Steve
-                            </td>
-                            <td>
-                                Jobs
-                            </td>
-                            <td>
-                                steve
-                            </td>
-                        </tr>
+                <div id="partialTrans">
+                    @*@Html.Action("_Transactions", "Transactions", new { id = Model.Id })*@
+                    <table class="table table-hover">
+                        <thead class="bordered-darkorange">
+                            <tr>
+                                <th>
+                                   Date
+                                </th>
+                                <th>
+                                   Description
+                                </th>
+                                <th>
+                                    Category
+                                </th>
+                                <th>
+                                    Amount
+                                </th>
+                                <th>
+                                    Reconciled
+                                </th>
+                                <th>
+                                    UpdatedBy
+                                </th>
+                                <th>
+                                    Links
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var trans in Model.Transactions)
+                            {
+                                <tr>
+                                    <td>
+                                        @trans.TransDate.DateTime.ToLongDateString()
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => trans.Description)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => trans.Category.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => trans.Amount)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => trans.RecAmount)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => trans.UpdatedBy)
+                                    </td>
+                                    <td>
+                                        @Html.ActionLink("Edit", "Edit", "Transactions", new { id = trans.Id }, null) |
+                                        @Html.ActionLink("Delete", "Delete", "Transactions", new { id = trans.Id }, null)
+                                        @*<i class="icon glyphicon glyphicon-trash"></i><a href="" data-toggle="modal" data-target="#@trans.Id">Delete</a>*@
+
+                                    </td>
+                                </tr>
+                                @*<div class="modal modal-primary" id="@trans.Id" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icon glyphicon glyphicon-remove"></i></button>
+                                                <h4 class="modal-title">Delete Transaction</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>Are you sure you want to delete this transaction ? </p>
+                                                <p>
+                                                    @Html.DisplayFor(modelItem => trans.Description)
+                                                <br />
+                                                     @Html.DisplayFor(modelItem => trans.Amount)
+                                                </p>
+                                            </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-warning" data-dismiss="modal"><i class="icon glyphicon glyphicon-remove"></i>Cancel</button>
+                                            @using (Html.BeginForm("Delete", "Transactions", new {id=trans.Id }, "HttpPost" ))
+                                            {
+                                                @Html.AntiForgeryToken()
+                                                @Html.Hidden("id", trans.Id)
+                                                <div class="form-actions no-color">
+
+                                                    <button type="submit" value="Delete" class="btn btn-primary"><i class="icon glyphicon glyphicon-trash"></i>Delete</button>
+                                                </div>
+                                            }
+                                            
 
 
+                                        </div>
+                                    </div><!-- /.modal-content -->
+                                </div><!-- /.modal-dialog -->
+                            </div><!-- /.modal -->*@
+                            }
 
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div> 
             </div>
             <p>
-                @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-                @Html.ActionLink("Back to List", "Index")
+                @*@Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |*@
+                @Html.ActionLink("Back to Accounts List", "Index")
             </p>
+        </div>
+        <div id="AddTrans" class="col-md-4">
+            <p>@ViewBag.Note</p>
+            @Html.Action("_AddTrans", "Transactions", new { id = Model.Id})
+
+
         </div>
       </div>
     </div>

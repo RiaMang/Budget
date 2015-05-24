@@ -1,0 +1,63 @@
+﻿@model Budget.Models.Category
+
+@{
+    
+}
+
+<div class="page-body">
+    <div class="row">
+        <div class="col-xs-12 col-md-6">
+            <div class="well with-header  with-footer">
+                <div class="header bg-blue">
+                    @Model.Name - @Model.CategoryType.Name
+                    
+                </div>
+                    <div>
+                        <h4>Category</h4>
+                        <hr />
+                        
+                        <table class="table table-hover">
+                            <thead class="bordered-darkorange">
+                                <tr>
+                                    <th>
+                                        #
+                                    </th>
+                                    <th>
+                                        Name
+                                    </th>
+                                    <th>
+                                        Family
+                                    </th>
+                                    <th>
+                                        Username
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        1
+                                    </td>
+                                    <td>
+                                        Steve
+                                    </td>
+                                    <td>
+                                        Jobs
+                                    </td>
+                                    <td>
+                                        steve
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <p>
+                        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+                        @Html.ActionLink("Back to List", "Index")
+                    </p>
+                </div>
+             </div>
+            </div>
+        </div>
+    

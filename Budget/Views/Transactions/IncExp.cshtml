@@ -1,0 +1,75 @@
+﻿
+@model Budget.Models.TransByCatViewModel
+@{
+    ViewBag.Title = "TransByCat";
+}
+
+<div class="page-body">
+
+    <div class="row">
+        <div class="col-md-8">
+            @foreach (var cat in Model.Categories)
+            {
+                <div class="well with-header  with-footer">
+                    <div class="header bg-blue">
+                        @cat.Name <span>   -    </span> @cat.CategoryType.Name
+                    </div>
+                    <table class="table table-hover">
+                        <thead class="bordered-darkorange">
+                            <tr>
+                                <th>
+                                    Date
+                                </th>
+                                <th>
+                                    Description
+                                </th>
+                                <th>
+                                    Category
+                                </th>
+                                <th>
+                                    Amount
+                                </th>
+                                <th>
+                                    Reconciled
+                                </th>
+                                <th>
+                                    UpdatedBy
+                                </th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                var trans = Model.Transactions.Where(t => t.CategoryId == cat.Id);
+                            }
+                            @foreach (var tr in trans)
+                            {
+                                <tr>
+                                    <td>
+                                        @tr.TransDate.DateTime.ToLongDateString()
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => tr.Description)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => tr.Category.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => tr.Amount)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => tr.RecAmount)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => tr.UpdatedBy)
+                                    </td>
+                                    
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+</div>

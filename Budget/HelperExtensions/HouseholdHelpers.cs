@@ -7,6 +7,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using Budget.HelperExtensions;
+using System.Text;
 
 namespace Budget.HelperExtensions
 {
@@ -64,12 +65,26 @@ namespace Budget.HelperExtensions
             {
                 usr.HouseholdId = null;
                 //db.Users.Attach(user);
-                db.Entry(usr).Property(p => p.HouseholdId).IsModified = true;
+                //db.Entry(usr).Property(p => p.HouseholdId).IsModified = true;
                 
             }
             db.SaveChanges();
             return true;
         }
+
+        public static void AddCategories(this Household h)
+        {
+            Category[] c ={
+                new Category { Name = "Salary", CategoryTypeId = 1, HouseholdId = h.Id, }, //type 1 = Income, 2= Expense
+                new Category {Name = "Bills", CategoryTypeId = 2, HouseholdId = h.Id, },
+                new Category {Name = "Transportation", CategoryTypeId = 2, HouseholdId = h.Id, },
+                 new Category {Name = "Food", CategoryTypeId = 2, HouseholdId = h.Id, },
+                  new Category {Name = "Rent", CategoryTypeId = 2, HouseholdId = h.Id, },
+              };
+            db.Categories.AddRange(c);
+            db.SaveChanges();
+        }
+
 
         public static string genRandom(this string s)
         {
@@ -77,15 +92,14 @@ namespace Budget.HelperExtensions
             string chars = "2346789ABCDEFGHJKLMNPQRTUVWXYZabcdefghjkmnpqrtuvwxyz";
             // create random generator
             Random rnd = new Random();
-            string name;
 
             // create name
-            name = string.Empty;
+            var name = new StringBuilder();
             while (name.Length < 7)
             {
-                name += chars.Substring(rnd.Next(chars.Length), 1);
+                name.Append( chars[rnd.Next(chars.Length)] );
             }
-            return name;
+            return name.ToString();
         }
 
 

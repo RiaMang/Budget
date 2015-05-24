@@ -6,12 +6,11 @@ using System.Web;
 
 namespace Budget.Models
 {
-    public class HouseholdViewModel
+    public class CategoryType
     {
-        [Display(Name="Household Name")]
+        public int Id { get; set; }
+        [Display(Name="Type")]
         public string Name { get; set; }
 
-        [Display(Name = "Invitation Code")]
-        public string Code { get; set; }
     }
 }

@@ -19,9 +19,9 @@
                         
                            
                             <br />
-                            <button type='button'>@Html.ActionLink("Invite", "InviteToHousehold")</button>
+                            <button type='button'><i class="icon glyphicon glyphicon-envelope"></i>@Html.ActionLink(" Invite", "InviteToHousehold")</button>
                             <span> </span>
-                            <button type='button' data-target="#Leave" data-toggle="modal">Leave Group</button>
+                            <button type='button' data-target="#Leave" data-toggle="modal"><i class="icon glyphicon glyphicon-plane"></i> Leave Group</button>
                        
                 </div>
 
@@ -39,15 +39,15 @@
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icon glyphicon glyphicon-remove"></i></button>
                                 <h4 class="modal-title">Leave Group</h4>
                             </div>
                             <div class="modal-body">
                                 <p>If you leave the group, you will no longer have access to your Accounts, Transactions and Budget. Are you sure you want to leave the group ? </p>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-warning" data-dismiss="modal">Cancel</button>
-                                <button type="button" class="btn btn-primary">@Html.ActionLink("Leave Group", "LeaveHousehold", null, new { @style="color:#fff"})</button>
+                                <button type="button" class="btn btn-warning" data-dismiss="modal"><i class="icon glyphicon glyphicon-remove"></i>Cancel</button>
+                                <button type="button" class="btn btn-primary"><i class="icon glyphicon glyphicon-plane"></i>@Html.ActionLink("Leave Group", "LeaveHousehold", null, new { @style = "color:#fff" })</button>
                             </div>
                         </div><!-- /.modal-content -->
                     </div><!-- /.modal-dialog -->

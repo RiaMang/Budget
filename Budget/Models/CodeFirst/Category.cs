@@ -16,9 +16,16 @@ namespace Budget.Models
         
         public int Id { get; set; }
         [Required]
+        [Display(Name="Category")]
         public string Name { get; set; }
+        [Display(Name="Type")]
+        public int CategoryTypeId { get; set; }
+        public int? HouseholdId { get; set; }
 
+        public virtual CategoryType CategoryType { get; set; }
+        public virtual Household Household { get; set; }
         public ICollection<Transaction> Transactions { get; set; }
         public ICollection<BudgetItem> BudgetItems { get; set; }
+        
     }
 }

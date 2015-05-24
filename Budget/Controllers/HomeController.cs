@@ -17,8 +17,14 @@ namespace Budget.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        [AuthorizeHouseholdRequired]
+        [AllowAnonymous]
         public ActionResult Index()
+        {
+            return View();
+        }
+
+        [AuthorizeHouseholdRequired]
+        public ActionResult Dashboard()
         {
             return View();
         }
@@ -34,9 +40,9 @@ namespace Budget.Controllers
         [AuthorizeHouseholdRequired]
         public ActionResult Household()
         {
-            var userid = User.Identity.GetUserId();
+            //var userid = User.Identity.GetUserId();
             
-            return View(db.Households.Find(db.Users.Find(userid).HouseholdId));
+            return View(db.Households.Find(Convert.ToInt32(User.Identity.GetHouseholdId())));
         }
 
         [Authorize]
@@ -50,18 +56,19 @@ namespace Budget.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> CreateJoinHousehold(HouseholdViewModel hvm)
         {
-            var userid = User.Identity.GetUserId();
-            var user = db.Users.Find(userid);
-            if (hvm.Code == null)
+            var user = db.Users.Find(User.Identity.GetUserId());
+            if (hvm.Code == null) // create household
             {
                 if (hvm.Name == null)
                     return View();
                 Household h = new Household { Name = hvm.Name };
                 db.Households.Add(h);
-                //db.SaveChanges();
+                db.SaveChanges();
+                h.AddCategories();
+                
                 user.HouseholdId = h.Id;
             }
-            else
+            else // join household
             {
                 
                     var invite = db.Invitations.FirstOrDefault(m => m.Code == hvm.Code);
@@ -77,14 +84,14 @@ namespace Budget.Controllers
                     }
                 
             }
-            ApplicationSignInManager SignInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+            //ApplicationSignInManager SignInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
 
-            HttpContext.GetOwinContext().Authentication.SignOut();
-            await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-
+            //HttpContext.GetOwinContext().Authentication.SignOut();
+            //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+            await ControllerContext.HttpContext.RefreshAuthentication(user);
             db.SaveChanges();
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Dashboard");
         }
 
         [AuthorizeHouseholdRequired]
@@ -103,7 +110,7 @@ namespace Budget.Controllers
             
             invite.InviteUserToHousehold(user);
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Dashboard");
         }
 
 
@@ -114,10 +121,13 @@ namespace Budget.Controllers
             var userid = User.Identity.GetUserId();
             var user = db.Users.Find(userid);
             db.Users.RemoveUserFromHousehold(user.Id);
-            ApplicationSignInManager SignInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+            await ControllerContext.HttpContext.RefreshAuthentication(user);
+
+            //var user1 = new ApplicationUser() { Id = userid, UserName = User.Identity.GetUserName() }; // just trying if this works, could use 'user' too.
+            //ApplicationSignInManager SignInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             
-            HttpContext.GetOwinContext().Authentication.SignOut();
-            await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+            //HttpContext.GetOwinContext().Authentication.SignOut();
+            //await SignInManager.SignInAsync(user1, isPersistent: false, rememberBrowser: false);
 
             return RedirectToAction("Household");
         }

@@ -6,121 +6,119 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using Microsoft.AspNet.Identity;
+using Budget.Models;
 
-namespace Budget.Models
-{   
+namespace Budget.Controllers
+{
     [AuthorizeHouseholdRequired]
-    public class AccountsController : Controller
+    public class CategoriesController : Controller
     {
+        
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: Accounts
+        // GET: Categories
         public ActionResult Index()
         {
-            //var user = db.Users.Find(User.Identity.GetUserId());
             var hh = db.Households.Find(Convert.ToInt32(User.Identity.GetHouseholdId()));
-            var accounts = hh.Accounts.AsQueryable().Include(a => a.Household);
-            
-            return View(accounts.ToList());
+            var categories = hh.Categories.AsQueryable().Include(c => c.CategoryType);
+            return View(categories.ToList());
         }
 
-        // GET: Accounts/Details/5
+        // GET: Categories/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Account account = db.Accounts.Find(id);
-            if (account == null)
+            Category category = db.Categories.Find(id);
+            if (category == null)
             {
                 return HttpNotFound();
             }
-            return View(account);
+            return View(category);
         }
 
-        // GET: Accounts/Create
+        // GET: Categories/Create
         public ActionResult Create()
         {
-            ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name");
+            ViewBag.CategoryTypeId = new SelectList(db.CategoryTypes, "Id", "Name");
             return View();
         }
 
-        // POST: Accounts/Create
+        // POST: Categories/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Balance")] Account account)
+        public ActionResult Create([Bind(Include = "Id,Name,CategoryTypeId")] Category category)
         {
             if (ModelState.IsValid)
             {
-                account.HouseholdId = Convert.ToInt32(User.Identity.GetHouseholdId());
-                db.Accounts.Add(account);
+                category.HouseholdId = Convert.ToInt32(User.Identity.GetHouseholdId());
+                db.Categories.Add(category);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name", account.HouseholdId);
-            return View(account);
+            ViewBag.CategoryTypeId = new SelectList(db.CategoryTypes, "Id", "Name", category.CategoryTypeId);
+            return View(category);
         }
 
-        // GET: Accounts/Edit/5
+        // GET: Categories/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Account account = db.Accounts.Find(id);
-            if (account == null)
+            Category category = db.Categories.Find(id);
+            if (category == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name", account.HouseholdId);
-            return View(account);
+            ViewBag.CategoryTypeId = new SelectList(db.CategoryTypes, "Id", "Name", category.CategoryTypeId);
+            return View(category);
         }
 
-        // POST: Accounts/Edit/5
+        // POST: Categories/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Balance,HouseholdId")] Account account)
+        public ActionResult Edit([Bind(Include = "Id,Name,CategoryTypeId,HouseholdId")] Category category)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(account).State = EntityState.Modified;
+                db.Entry(category).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name", account.HouseholdId);
-            return View(account);
+            ViewBag.CategoryTypeId = new SelectList(db.CategoryTypes, "Id", "Name", category.CategoryTypeId);
+            return View(category);
         }
 
-        // GET: Accounts/Delete/5
+        // GET: Categories/Delete/5
         //public ActionResult Delete(int? id)
         //{
         //    if (id == null)
         //    {
         //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
         //    }
-        //    Account account = db.Accounts.Find(id);
-        //    if (account == null)
+        //    Category category = db.Categories.Find(id);
+        //    if (category == null)
         //    {
         //        return HttpNotFound();
         //    }
-        //    return View(account);
+        //    return View(category);
         //}
 
-        // POST: Accounts/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        //  Categories/Delete/5
+       
+        public ActionResult Delete(int id)
         {
-            Account account = db.Accounts.Find(id);
-            db.Accounts.Remove(account);
+            Category category = db.Categories.Find(id);
+            db.Categories.Remove(category);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

@@ -13,6 +13,8 @@ namespace Budget
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            routes.MapMvcAttributeRoutes(); // maps the attribute defined route for the application
+            
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
