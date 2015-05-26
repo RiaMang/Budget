@@ -58,6 +58,12 @@ namespace Budget.Controllers
                 category.HouseholdId = Convert.ToInt32(User.Identity.GetHouseholdId());
                 db.Categories.Add(category);
                 db.SaveChanges();
+                if(Request.IsAjaxRequest())
+                {
+                    var hh = db.Households.Find(Convert.ToInt32(User.Identity.GetHouseholdId()));
+                    ViewBag.CategoryId = new SelectList(hh.Categories, "Id", "Name");
+                    return PartialView("CatDD");
+                }
                 return RedirectToAction("Index");
             }
 
@@ -118,6 +124,29 @@ namespace Budget.Controllers
         public ActionResult Delete(int id)
         {
             Category category = db.Categories.Find(id);
+            var cat = category;
+            if (category.CategoryTypeId == 1) // 1 is income
+            {
+                cat = db.Categories.Where(c=>c.Name == "MiscIncome").FirstOrDefault();
+            }
+            else{
+                 cat = db.Categories.Where(c=>c.Name == "MiscExpense").FirstOrDefault();
+            }
+            // change cat of budgetitems to Misc
+            var bItems = db.BudgetItems.Where(b=>b.CategoryId == category.Id);
+            foreach (var bi in bItems)
+            {
+                bi.CategoryId = cat.Id;
+                db.Entry(bi).State = EntityState.Modified;
+            }
+            // change cat of transactions to Misc
+            var trans = db.Transactions.Where(t=>t.CategoryId == category.Id);
+            foreach (var tr in trans)
+            {
+                tr.CategoryId = cat.Id;
+                db.Entry(tr).State = EntityState.Modified;
+            }
+            
             db.Categories.Remove(category);
             db.SaveChanges();
             return RedirectToAction("Index");

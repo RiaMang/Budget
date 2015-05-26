@@ -5,78 +5,82 @@
 }
 
 <div class="page-body">
-
     <div class="row">
         <div class="col-md-8">
-            @foreach (var type in Model.Types)
-            {
-                <div class="well with-header  with-footer">
-                    <div class="header bg-blue">
-                        @type.Name 
-                    </div>
-                    <table class="table table-hover">
-                        <thead class="bordered-darkorange">
-                            <tr>
-                                <th>
-                                    Date
-                                </th>
-                                <th>
-                                    Description
-                                </th>
-                                <th>
-                                    Category
-                                </th>
-                                <th>
-                                    Amount
-                                </th>
-                                <th>
-                                    Reconciled
-                                </th>
-                                <th>
-                                    UpdatedBy
-                                </th>
-                                
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @{
-                            var trans = Model.Transactions.Where(t => t.Category.CategoryTypeId == type.Id);
-                            decimal total = 0;
-                            }
-                            @foreach (var tr in trans)
-                            {
-                                <tr>
-                                    <td>
-                                        @tr.TransDate.DateTime.ToLongDateString()
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(model => tr.Description)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(model => tr.Category.Name)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(model => tr.Amount)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(model => tr.RecAmount)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(model => tr.UpdatedBy)
-                                    </td>
-                                    @{ total += tr.Amount;}
-                                </tr>
-                            }
-                            <tr>
-                                <td><strong>Total</strong></td>
-                                <td></td>
-                                <td></td>
-                                <td><strong>@total</strong></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            }
+            <p>Transactions By Type(Income/Expense)<span class="pull-right">@Html.ActionLink("Transactions by Category", "TransByCat")</span></p>
         </div>
     </div>
-</div>
+            <div class="row">
+                <div class="col-md-8">
+                    @foreach (var type in Model.Types)
+                    {
+                        <div class="well with-header  with-footer">
+                            <div class="header bg-blue">
+                                @type.Name
+                            </div>
+                            <table class="table table-hover">
+                                <thead class="bordered-darkorange">
+                                    <tr>
+                                        <th>
+                                            Date
+                                        </th>
+                                        <th>
+                                            Description
+                                        </th>
+                                        <th>
+                                            Category
+                                        </th>
+                                        <th>
+                                            Amount
+                                        </th>
+                                        <th>
+                                            Reconciled
+                                        </th>
+                                        <th>
+                                            UpdatedBy
+                                        </th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                        var trans = Model.Transactions.Where(t => t.Category.CategoryTypeId == type.Id);
+                        decimal total = 0;
+                                    }
+                                    @foreach (var tr in trans)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @tr.TransDate.DateTime.ToLongDateString()
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(model => tr.Description)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(model => tr.Category.Name)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(model => tr.Amount)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(model => tr.RecAmount)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(model => tr.UpdatedBy)
+                                            </td>
+                                            @{ total += tr.Amount;}
+                                        </tr>
+                                    }
+                                    <tr>
+                                        <td><strong>Total</strong></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td><strong>@total</strong></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>

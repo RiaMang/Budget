@@ -169,6 +169,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BudgetsController.cs" />
     <Compile Include="Controllers\BudgetItemsController.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -177,6 +178,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="HelperExtensions\BudgetHelper.cs" />
     <Compile Include="HelperExtensions\DbExtensions.cs" />
     <Compile Include="HelperExtensions\HouseholdHelpers.cs" />
     <Compile Include="Migrations\Configuration.cs" />
@@ -190,6 +192,7 @@
     <Compile Include="Models\CodeFirst\Invitation.cs" />
     <Compile Include="Models\CodeFirst\Transaction.cs" />
     <Compile Include="Models\FilterAttr.cs" />
+    <Compile Include="ViewModels\BudgetViewModel.cs" />
     <Compile Include="ViewModels\HouseholdViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -725,62 +728,8 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Controllers\Views\Web.config" />
-    <Content Include="Controllers\Views\_ViewStart.cshtml" />
-    <Content Include="Controllers\Views\Shared\Error.cshtml" />
-    <Content Include="Controllers\Views\Shared\_Layout.cshtml" />
-    <Content Include="Controllers\Views\Home\Household.cshtml" />
-    <Content Include="Controllers\Views\Home\CreateJoinHousehold.cshtml" />
-    <Content Include="Controllers\Views\Home\Dashboard.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
-    <Content Include="Controllers\Views\Account\_ExternalLoginsListPartial.cshtml" />
-    <Content Include="Controllers\Views\Account\ConfirmEmail.cshtml" />
-    <Content Include="Controllers\Views\Account\ExternalLoginConfirmation.cshtml" />
-    <Content Include="Controllers\Views\Account\ExternalLoginFailure.cshtml" />
-    <Content Include="Controllers\Views\Account\ForgotPassword.cshtml" />
-    <Content Include="Controllers\Views\Account\ForgotPasswordConfirmation.cshtml" />
-    <Content Include="Controllers\Views\Account\Login.cshtml" />
-    <Content Include="Controllers\Views\Account\Register.cshtml" />
-    <Content Include="Controllers\Views\Account\ResetPassword.cshtml" />
-    <Content Include="Controllers\Views\Account\ResetPasswordConfirmation.cshtml" />
-    <Content Include="Controllers\Views\Account\SendCode.cshtml" />
-    <Content Include="Controllers\Views\Account\VerifyCode.cshtml" />
-    <Content Include="Controllers\Views\Manage\AddPhoneNumber.cshtml" />
-    <Content Include="Controllers\Views\Manage\ChangePassword.cshtml" />
-    <Content Include="Controllers\Views\Manage\Index.cshtml" />
-    <Content Include="Controllers\Views\Manage\ManageLogins.cshtml" />
-    <Content Include="Controllers\Views\Manage\SetPassword.cshtml" />
-    <Content Include="Controllers\Views\Manage\VerifyPhoneNumber.cshtml" />
-    <Content Include="Controllers\Views\Shared\Lockout.cshtml" />
-    <Content Include="Controllers\Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Controllers\Views\Account\ResendEmailConfirmation.cshtml" />
-    <Content Include="Controllers\Views\Account\ConfirmationSent.cshtml" />
-    <Content Include="Controllers\Views\Account\UserAccount.cshtml" />
-    <Content Include="Controllers\Views\Home\InviteToHousehold.cshtml" />
     <Content Include="Web.config" />
-    <Content Include="Controllers\Views\Accounts\Create.cshtml" />
-    <Content Include="Controllers\Views\Accounts\Delete.cshtml" />
-    <Content Include="Controllers\Views\Accounts\Details.cshtml" />
-    <Content Include="Controllers\Views\Accounts\Edit.cshtml" />
-    <Content Include="Controllers\Views\Accounts\Index.cshtml" />
-    <Content Include="Controllers\Views\Shared\_Empty.cshtml" />
-    <Content Include="Controllers\Views\Home\Index.cshtml" />
-    <Content Include="Controllers\Views\Categories\Create.cshtml" />
-    <Content Include="Controllers\Views\Categories\Delete.cshtml" />
-    <Content Include="Controllers\Views\Categories\Details.cshtml" />
-    <Content Include="Controllers\Views\Categories\Edit.cshtml" />
-    <Content Include="Controllers\Views\Categories\Index.cshtml" />
-    <Content Include="Controllers\Views\BudgetItems\Create.cshtml" />
-    <Content Include="Controllers\Views\BudgetItems\Delete.cshtml" />
-    <Content Include="Controllers\Views\BudgetItems\Details.cshtml" />
-    <Content Include="Controllers\Views\BudgetItems\Edit.cshtml" />
-    <Content Include="Controllers\Views\BudgetItems\Index.cshtml" />
-    <Content Include="Controllers\Views\Transactions\_Transactions.cshtml" />
-    <Content Include="Controllers\Views\Transactions\_AddTrans.cshtml" />
-    <Content Include="Controllers\Views\Transactions\Edit.cshtml" />
-    <Content Include="Controllers\Views\Transactions\Delete.cshtml" />
-    <Content Include="Controllers\Views\Transactions\TransByCat.cshtml" />
-    <Content Include="Controllers\Views\Transactions\TransByType.cshtml" />
     <Content Include="Views\Accounts\Create.cshtml" />
     <Content Include="Views\Accounts\Delete.cshtml" />
     <Content Include="Views\Accounts\Details.cshtml" />
@@ -836,6 +785,8 @@
     <Content Include="Views\Transactions\_Transactions.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Budgets\Index.cshtml" />
+    <Content Include="Views\Transactions\CatDD.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

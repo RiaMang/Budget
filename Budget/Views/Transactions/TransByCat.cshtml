@@ -5,7 +5,11 @@
 }
 
 <div class="page-body">
-
+    <div class="row">
+        <div class="col-md-8">
+            <p>Transactions By Category<span class="pull-right">@Html.ActionLink("Transactions by Type", "TransByType")</span></p>
+        </div>
+    </div>
     <div class="row">
         <div class="col-md-8">
             @foreach (var cat in Model.Categories)

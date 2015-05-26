@@ -1,0 +1,75 @@
+﻿@model IEnumerable<Budget.Models.BudgetMod>
+@{
+    ViewBag.Title = "Index";
+    string[] Type = { "Income", "Expense" };
+}
+
+<div class="page-body">
+    <div class="row">
+        <div class="col-lg-6 col-sm-6 col-xs-12">
+            <div class="widget">
+                <div class="widget-header bordered-left bordered-blueberry">
+                    <span class="widget-caption">Budget Vs Spending</span>
+                </div><!--Widget Header-->
+                @foreach(var ty in Type)
+                { 
+                <div class="widget-body bordered-left bordered-blue">
+                    <p><strong>@ty</strong></p>
+                    <table class="table table-hover">
+                        <thead class="bordered-darkorange">
+                            <tr>
+                                <th>
+                                    Category
+                                </th>
+                                <th>
+                                    Budgeted Amount
+                                </th>
+                                <th>
+                                    Actual Amount
+                                </th>
+                                <th>
+                                    Difference
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                var buds = Model.Where(t => t.Type == ty);
+                                decimal etotal=0,atotal = 0;
+                            }
+                            @foreach (var bud in buds)
+                            {
+                                <tr>
+                                    
+                                    <td>
+                                        @Html.DisplayFor(model => bud.Category)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => bud.EstAmount)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => bud.ActAmout)
+                                    </td>
+                                    <td>
+                                        @(bud.EstAmount - bud.ActAmout)
+                                    </td>
+                                    
+                                    @{ etotal += bud.EstAmount;
+                                       atotal += bud.ActAmout;}
+                                </tr>
+                            }
+                            <tr>
+                                <td><strong>Total</strong></td>
+                                <td><strong>@etotal</strong></td>
+                                <td><strong>@atotal</strong></td>
+                                <td><strong>@(etotal - atotal)</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                </div><!--Widget Body-->
+                }
+            </div><!--Widget-->
+        </div>
+    </div>
+</div>

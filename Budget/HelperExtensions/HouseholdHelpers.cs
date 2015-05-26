@@ -80,6 +80,8 @@ namespace Budget.HelperExtensions
                 new Category {Name = "Transportation", CategoryTypeId = 2, HouseholdId = h.Id, },
                  new Category {Name = "Food", CategoryTypeId = 2, HouseholdId = h.Id, },
                   new Category {Name = "Rent", CategoryTypeId = 2, HouseholdId = h.Id, },
+                  new Category { Name = "MiscIncome", CategoryTypeId = 1, HouseholdId = h.Id, }, //type 1 = Income, 2= Expense
+                new Category {Name = "MiscExpense", CategoryTypeId = 2, HouseholdId = h.Id, }
               };
             db.Categories.AddRange(c);
             db.SaveChanges();

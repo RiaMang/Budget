@@ -33,6 +33,7 @@ namespace Budget.Controllers
         {
             var hh = db.Households.Find(Convert.ToInt32(User.Identity.GetHouseholdId()));
             ViewBag.CategoryId = new SelectList(hh.Categories, "Id", "Name");
+            ViewBag.CategoryTypeId = new SelectList(db.CategoryTypes, "Id", "Name");
             TempData["AccId"] = id;
             return PartialView();
         }
