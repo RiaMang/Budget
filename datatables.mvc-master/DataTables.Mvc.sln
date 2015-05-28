@@ -1,18 +1,16 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+VisualStudioVersion = 12.0.30110.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Budget", "Budget\Budget.csproj", "{514B184C-C82A-470E-BF36-0141A962F97A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataTables.Mvc", "DataTables.Mvc\DataTables.Mvc.csproj", "{431ADB89-3DA0-4E18-9AF0-984B917E6EB8}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{B6DA69B9-62B5-40E1-B7CF-8C95003F3AFD}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{ADC2DA96-7473-4B8D-A2DF-EB01DE222EED}"
 	ProjectSection(SolutionItems) = preProject
 		.nuget\NuGet.Config = .nuget\NuGet.Config
 		.nuget\NuGet.exe = .nuget\NuGet.exe
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataTables.Mvc", "datatables.mvc-master\DataTables.Mvc\DataTables.Mvc.csproj", "{431ADB89-3DA0-4E18-9AF0-984B917E6EB8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,10 +18,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{514B184C-C82A-470E-BF36-0141A962F97A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{514B184C-C82A-470E-BF36-0141A962F97A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{514B184C-C82A-470E-BF36-0141A962F97A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{514B184C-C82A-470E-BF36-0141A962F97A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{431ADB89-3DA0-4E18-9AF0-984B917E6EB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{431ADB89-3DA0-4E18-9AF0-984B917E6EB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{431ADB89-3DA0-4E18-9AF0-984B917E6EB8}.Release|Any CPU.ActiveCfg = Release|Any CPU

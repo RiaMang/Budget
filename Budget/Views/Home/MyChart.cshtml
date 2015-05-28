@@ -1,0 +1,11 @@
+﻿
+@{
+    var myChart = new System.Web.Helpers.Chart(width: 600, height: 400, theme: ChartTheme.Blue)
+        .AddTitle("Budget Categories")
+        .AddSeries(
+            name: "Budget",
+            chartType: "Pie",
+            xValue: new[] { "Col1", "Col2", "Col3", "Col4", "Col5" },
+            yValues: new[] { "2", "6", "4", "5", "3" })
+        .Write();
+}

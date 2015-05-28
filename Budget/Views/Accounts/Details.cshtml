@@ -4,10 +4,12 @@
 <div class="page-body">
     
     <div class="row">
+
         <div class="col-md-8">
             <div class="well with-header  with-footer">
                 <div class="header bg-blue">
                     @Model.Name <span>   -    </span>@Model.Balance
+                    <span class="pull-right">@Html.ActionLink("Categories","Index","Categories")</span>
                 </div>
                 <div id="partialTrans">
                     @*@Html.Action("_Transactions", "Transactions", new { id = Model.Id })*@
@@ -33,7 +35,10 @@
                                     UpdatedBy
                                 </th>
                                 <th>
-                                    Links
+                                    
+                                </th>
+                                <th>
+                                    
                                 </th>
                             </tr>
                         </thead>
@@ -44,61 +49,38 @@
                                     <td>
                                         @trans.TransDate.DateTime.ToLongDateString()
                                     </td>
-                                    <td>
+                                    <td class="Description">
                                         @Html.DisplayFor(model => trans.Description)
                                     </td>
-                                    <td>
+                                    <td class="Category">
                                         @Html.DisplayFor(model => trans.Category.Name)
                                     </td>
-                                    <td>
+                                    <td class="Amount">
                                         @Html.DisplayFor(model => trans.Amount)
                                     </td>
-                                    <td>
+                                    <td class="RecAmount">
                                         @Html.DisplayFor(model => trans.RecAmount)
                                     </td>
                                     <td>
                                         @Html.DisplayFor(model => trans.UpdatedBy)
                                     </td>
                                     <td>
-                                        @Html.ActionLink("Edit", "Edit", "Transactions", new { id = trans.Id }, null) |
-                                        @Html.ActionLink("Delete", "Delete", "Transactions", new { id = trans.Id }, null)
-                                        @*<i class="icon glyphicon glyphicon-trash"></i><a href="" data-toggle="modal" data-target="#@trans.Id">Delete</a>*@
-
+                                        @*@Html.ActionLink("Edit", "Edit", "Transactions", new { id = trans.Id }, null) |*@
+                                        @*@Html.ActionLink("Delete", "Delete", "Transactions", new { id = trans.Id }, null)*@
+                                        <button class="ebuton" data-id="@trans.Id" >
+                                            <i class="icon glyphicon glyphicon-edit"></i>
+                                        </button>
                                     </td>
+                                    <td>
+                                        <button class="buton" data-toggle="modal" data-id="@trans.Id"
+                                                data-target="#DeleteModal" data-description="@trans.Description" data-amount="@trans.Amount">
+                                            <i class="icon glyphicon glyphicon-trash"></i>
+                                        </button>
+                                    </td>
+
+                                   
                                 </tr>
-                                @*<div class="modal modal-primary" id="@trans.Id" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icon glyphicon glyphicon-remove"></i></button>
-                                                <h4 class="modal-title">Delete Transaction</h4>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p>Are you sure you want to delete this transaction ? </p>
-                                                <p>
-                                                    @Html.DisplayFor(modelItem => trans.Description)
-                                                <br />
-                                                     @Html.DisplayFor(modelItem => trans.Amount)
-                                                </p>
-                                            </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-warning" data-dismiss="modal"><i class="icon glyphicon glyphicon-remove"></i>Cancel</button>
-                                            @using (Html.BeginForm("Delete", "Transactions", new {id=trans.Id }, "HttpPost" ))
-                                            {
-                                                @Html.AntiForgeryToken()
-                                                @Html.Hidden("id", trans.Id)
-                                                <div class="form-actions no-color">
-
-                                                    <button type="submit" value="Delete" class="btn btn-primary"><i class="icon glyphicon glyphicon-trash"></i>Delete</button>
-                                                </div>
-                                            }
-                                            
-
-
-                                        </div>
-                                    </div><!-- /.modal-content -->
-                                </div><!-- /.modal-dialog -->
-                            </div><!-- /.modal -->*@
+                               
                             }
 
                         </tbody>
@@ -110,11 +92,118 @@
                 @Html.ActionLink("Back to Accounts List", "Index")
             </p>
         </div>
-        <div id="AddTrans" class="col-md-4">
-            <p>@ViewBag.Note</p>
-            @Html.Action("_AddTrans", "Transactions", new { id = Model.Id})
-
-
+        <div id="AddTrans" class="col-md-4" >
+            
+                    <p>@ViewBag.Note</p>
+                    <div id="edit">
+                        @Html.Action("_AddTrans", "Transactions", new { id = Model.Id })
+                    </div>
+                
         </div>
       </div>
     </div>
+
+<!--Delete Modal-->
+<div class="modal modal-primary" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icon glyphicon glyphicon-remove"></i></button>
+                        <h4 class="modal-title">Delete Transaction</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure you want to delete this transaction ? </p>
+                        <p>       <div class="Desc">Description:  </div>
+                            <br />
+                            <div class="Amt">Amount: </div>
+                        </p>
+                    </div>
+                <div class="modal-footer">
+                    <div class="row">
+                        <div class="col-md-offset-7 col-md-2">
+                            <form id="delForm" action="~/Transactions/Delete" method="post">
+                                @Html.AntiForgeryToken()
+                                <input id="formdata" type="hidden" name="id" value="" />
+
+                                <div class="form-actions no-color">
+
+                                    <button type="submit" value="Delete" class="btn btn-primary"><i class="icon glyphicon glyphicon-trash"></i>Delete</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-warning" data-dismiss="modal"><i class="icon glyphicon glyphicon-remove"></i>Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+
+@*<!--Edit Modal-->
+<div class="modal modal-primary" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icon glyphicon glyphicon-remove"></i></button>
+                <h4 class="modal-title">Edit Transaction</h4>
+            </div>
+            <div class="modal-body">
+                
+                <p>
+                    
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning" data-dismiss="modal"><i class="icon glyphicon glyphicon-remove"></i>Cancel</button>
+                
+                <form id="delForm" action="~/Transactions/Delete" method="post">
+                    @Html.AntiForgeryToken()
+                    <input id="formdata" type="hidden" name="id" value="" />
+
+                    <div class="form-actions no-color">
+
+                        <button type="submit" value="Delete" class="btn btn-primary"><i class="icon glyphicon glyphicon-trash"></i>Delete</button>
+                    </div>
+                </form>
+
+
+
+
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->*@
+
+@section Scripts{
+<script type="text/javascript">
+    $(function()
+    {
+        console.log("Document is ready"+$('.buton').attr('data-id'));
+        $('.buton').click(function()
+        {
+            
+            $('#formdata').attr('value', $(this).attr('data-id'));
+            $('.Desc').text($(this).attr('data-description'));
+            $('.Amt').text($(this).data('amount'));
+        });
+
+        $('.ebuton').click(function () {
+            console.log('inside the click button' + $(this).data('id'));
+            
+            $.ajax({
+                type: "GET",
+                url: "/Transactions/Edit/"+$(this).data('id'),
+                data: function (d) {
+                    d.id = $(this).data('id')
+                },
+                
+            }).then(function(response) {
+                $('#edit').replaceWith(response);
+                //console.log(response);
+            })
+        });
+    });
+</script>
+}

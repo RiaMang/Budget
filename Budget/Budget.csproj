@@ -199,6 +199,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\AccountsViewModel.cs" />
+    <Compile Include="ViewModels\TransViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="assets\css\4095-rtl.css" />
@@ -364,6 +365,10 @@
     <Content Include="assets\img\sort_desc_disabled.png" />
     <Content Include="assets\img\temp1.png" />
     <Content Include="assets\img\tree-icons.png" />
+    <Content Include="assets\jqplot.donutRenderer.min.js" />
+    <Content Include="assets\jqplot.pieRenderer.min.js" />
+    <Content Include="assets\jquery.jqplot.min.css" />
+    <Content Include="assets\jquery.jqplot.min.js" />
     <Content Include="assets\js\beyond.js" />
     <Content Include="assets\js\beyond.min.js" />
     <Content Include="assets\js\bootbox\bootbox.js" />
@@ -782,11 +787,15 @@
     <Content Include="Views\Transactions\TransByCat.cshtml" />
     <Content Include="Views\Transactions\TransByType.cshtml" />
     <Content Include="Views\Transactions\_AddTrans.cshtml" />
-    <Content Include="Views\Transactions\_Transactions.cshtml" />
+    <Content Include="Views\Home\_RecentTransactions.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Budgets\Index.cshtml" />
     <Content Include="Views\Transactions\CatDD.cshtml" />
+    <Content Include="Views\Transactions\_Transactions.cshtml" />
+    <Content Include="Views\Transactions\_Edit.cshtml" />
+    <Content Include="Views\Home\MyChart.cshtml" />
+    <Content Include="Views\Accounts\_Edit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -803,6 +812,12 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\datatables.mvc-master\DataTables.Mvc\DataTables.Mvc.csproj">
+      <Project>{431adb89-3da0-4e18-9af0-984b917e6eb8}</Project>
+      <Name>DataTables.Mvc</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

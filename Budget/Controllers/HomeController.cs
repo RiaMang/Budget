@@ -10,6 +10,7 @@ using Budget.HelperExtensions;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity.Owin;
 using System.Net;
+using Newtonsoft.Json;
 
 namespace Budget.Controllers
 {
@@ -27,6 +28,75 @@ namespace Budget.Controllers
         public ActionResult Dashboard()
         {
             return View();
+        }
+
+        public ActionResult GetChart()
+        {
+            var s = new [] { new { year= "2008", value= 20 },
+                new { year= "2009", value= 5 },
+                new { year= "2010", value= 7 },
+                new { year= "2011", value= 10 },
+                new { year= "2012", value= 20 }};
+
+            var house = db.Households.Find(User.Identity.GetHouseholdId<int>());
+
+            decimal totalExpense = 0;
+            decimal totalBudget = 0;
+            var totalAcc = (from a in house.Accounts
+                            select a.Balance).DefaultIfEmpty().Sum();
+                           
+
+            var bar = (from c in house.Categories
+                       where c.CategoryType.Name == "Expense"
+                       let aSum = (from t in c.Transactions
+                                     select t.Amount).DefaultIfEmpty().Sum()
+                       let bSum = (from b in c.BudgetItems
+                                       select b.Amount).DefaultIfEmpty().Sum()
+                       let _ = totalExpense += aSum
+                       let __ = totalBudget += bSum
+                       select new
+                       {
+                           Name = c.Name,
+                           Actual = aSum,
+                           Budgeted = bSum
+                       }).ToArray();
+
+            var donut = (from c in house.Categories
+                        where c.CategoryType.Name == "Expense"
+                        let aSum = (from t in c.Transactions
+                                    select t.Amount).DefaultIfEmpty().Sum()
+                        select new 
+                        {
+                            label = c.Name,
+                            value = aSum
+                        }).ToArray();
+
+            var result = new
+            {
+                totalAcc = totalAcc,
+                totalBudget = totalBudget,
+                totalExpense = totalExpense,
+                bar = bar,
+                donut = donut
+            };
+
+            return Content(JsonConvert.SerializeObject(result), "application/json");
+        }
+
+        [AuthorizeHouseholdRequired]
+        public PartialViewResult _RecentTransactions()
+        {
+            var hh = db.Households.Find(Convert.ToInt32(User.Identity.GetHouseholdId()));
+            List<Transaction> model = new List<Transaction>();
+            var accounts = db.Accounts.Where(a => a.HouseholdId == hh.Id).ToList();
+            var tod = System.DateTimeOffset.Now;
+            tod=tod.AddDays(-7);
+            foreach (var acc in accounts)
+            {
+                var tr = acc.Transactions.Where(t => t.TransDate > tod).ToList();
+                model.AddRange(tr);
+            }
+            return PartialView(model);
         }
 
         [AuthorizeHouseholdRequired]

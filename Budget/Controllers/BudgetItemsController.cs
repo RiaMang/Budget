@@ -31,6 +31,9 @@ namespace Budget.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             BudgetItem budgetItem = db.BudgetItems.Find(id);
+            var hh = db.Households.Find(Convert.ToInt32(User.Identity.GetHouseholdId()));
+            if (!hh.BudgetItems.Contains(budgetItem)) // if BudgetItem id does not belong to household - refuse access
+                budgetItem = null;
             if (budgetItem == null)
             {
                 return HttpNotFound();
@@ -68,22 +71,27 @@ namespace Budget.Controllers
         }
 
         // GET: BudgetItems/Edit/5
-        public ActionResult Edit(int? id)
+        public PartialViewResult Edit(int? id)
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return PartialView(null);
+                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             
             BudgetItem budgetItem = db.BudgetItems.Find(id);
+            var hh = db.Households.Find(Convert.ToInt32(User.Identity.GetHouseholdId()));
+            if (!hh.BudgetItems.Contains(budgetItem)) // if budgetItem id does not belong to household - refuse access
+                budgetItem = null;
             if (budgetItem == null)
             {
-                return HttpNotFound();
+                return PartialView(null);
+                // return HttpNotFound();
             }
-            var hh = db.Households.Find(Convert.ToInt32(User.Identity.GetHouseholdId()));
+           
             ViewBag.CategoryId = new SelectList(hh.Categories, "Id", "Name", budgetItem.CategoryId);
             //ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name", budgetItem.HouseholdId);
-            return View(budgetItem);
+            return PartialView(budgetItem);
         }
 
         // POST: BudgetItems/Edit/5
@@ -106,19 +114,22 @@ namespace Budget.Controllers
         }
 
         // GET: BudgetItems/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            BudgetItem budgetItem = db.BudgetItems.Find(id);
-            if (budgetItem == null)
-            {
-                return HttpNotFound();
-            }
-            return View(budgetItem);
-        }
+        //public ActionResult Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    BudgetItem budgetItem = db.BudgetItems.Find(id);
+        //    var hh = db.Households.Find(Convert.ToInt32(User.Identity.GetHouseholdId()));
+        //    if (!hh.BudgetItems.Contains(budgetItem)) // if budgetItem id does not belong to household - refuse access
+        //        budgetItem = null;
+        //    if (budgetItem == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(budgetItem);
+        //}
 
         // POST: BudgetItems/Delete/5
         [HttpPost, ActionName("Delete")]

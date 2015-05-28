@@ -25,17 +25,19 @@ Purchase: http://wrapbootstrap.com
     <link href="/assets/css/weather-icons.min.css" rel="stylesheet" />
 
     <!--Fonts-->
-    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300" rel="stylesheet" type="text/css">
-    <link href='http://fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300" rel="stylesheet" type="text/css">
+    <link href='//fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>
     <!--Beyond styles-->
     <link href="/assets/css/beyond.min.css" rel="stylesheet" type="text/css" />
     <link href="/assets/css/demo.min.css" rel="stylesheet" />
     <link href="/assets/css/typicons.min.css" rel="stylesheet" />
     <link href="/assets/css/animate.min.css" rel="stylesheet" />
     <link id="skin-link" href="" rel="stylesheet" type="text/css" />
-
+    <link href="~/assets/jquery.jqplot.min.css" rel="stylesheet" />
     <!--Skin Script: Place this script in head to load scripts for skins and rtl support-->
     <script src="/assets/js/skins.min.js"></script>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+
 </head>
 <!-- /Head -->
 
@@ -365,7 +367,7 @@ Purchase: http://wrapbootstrap.com
             </div>
             
 
-            <div class=" page-content">
+            <div class="page-content">
                 @RenderBody()
             </div>
         </div>
@@ -382,4 +384,4 @@ Purchase: http://wrapbootstrap.com
         @Scripts.Render("~/bundles/bootstrap")
         @RenderSection("scripts", required: false)
 </body>
-        </html>
+</html>

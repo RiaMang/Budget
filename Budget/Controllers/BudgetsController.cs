@@ -8,6 +8,7 @@ using Budget.HelperExtensions;
 
 namespace Budget.Controllers
 {
+    [AuthorizeHouseholdRequired]
     public class BudgetsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

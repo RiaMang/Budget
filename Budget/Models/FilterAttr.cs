@@ -27,6 +27,16 @@ namespace Budget.Models
                 return null;
         }
 
+        public static T GetHouseholdId<T>(this IIdentity user)
+        {
+            var claimsIdentity = (ClaimsIdentity)user;
+            var HouseholdClaim = claimsIdentity.Claims.FirstOrDefault(c => c.Type == "HouseholdId");
+            if (HouseholdClaim != null)
+                return (T)Convert.ChangeType(HouseholdClaim.Value, typeof(T));
+            else
+                return default(T);
+        }
+
         public static bool IsInHousehold(this IIdentity user)
         {
             var cUser = (ClaimsIdentity)user;

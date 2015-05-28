@@ -24,8 +24,8 @@ namespace Budget.Models
 
         public virtual CategoryType CategoryType { get; set; }
         public virtual Household Household { get; set; }
-        public ICollection<Transaction> Transactions { get; set; }
-        public ICollection<BudgetItem> BudgetItems { get; set; }
+        public virtual ICollection<Transaction> Transactions { get; set; }
+        public virtual ICollection<BudgetItem> BudgetItems { get; set; }
         
     }
 }

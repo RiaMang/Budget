@@ -73,23 +73,38 @@ namespace Budget.Controllers
             return RedirectToAction("Details", "Accounts", new { Id = accId, tr });
         }
 
-        // GET: Accounts/Edit/5
-        public ActionResult Edit(int? id)
+        // GET: Transactions/Edit/5
+        
+        public PartialViewResult Edit(int? id)
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return PartialView(null);
+                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            //var hh = db.Households.Find(Convert.ToInt32(User.Identity.GetHouseholdId()));
+            
             Transaction tr = db.Transactions.Find(id);
+            var hh = db.Households.Find(Convert.ToInt32(User.Identity.GetHouseholdId()));
+            
             if (tr == null)
             {
-                return HttpNotFound();
+                return PartialView(null);
+                //return HttpNotFound();
             }
-            var hh = db.Households.Find(Convert.ToInt32(User.Identity.GetHouseholdId()));
+            else
+            {
+                var acc = db.Accounts.Find(tr.AccountId); // if Account does not belong to household, refuse access.
+                if (!hh.Accounts.Contains(acc))
+                {
+                    tr = null;
+                    //return HttpNotFound();
+                }
+            }
+            
             ViewBag.CategoryId = new SelectList(hh.Categories, "Id", "Name", tr.CategoryId);
             ViewBag.AccountId = new SelectList(hh.Accounts, "Id", "Name", tr.AccountId);
-            return View(tr);
+            return PartialView("_Edit",tr);
+            //return View(tr);
         }
 
         // POST: Accounts/Edit/5
@@ -145,7 +160,7 @@ namespace Budget.Controllers
             return View(tr);
         }
 
-        // GET: Accounts/Delete/5
+        // GET: Transactions/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -153,14 +168,25 @@ namespace Budget.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Transaction tr = db.Transactions.Find(id);
+            var hh = db.Households.Find(Convert.ToInt32(User.Identity.GetHouseholdId()));
+            
             if (tr == null)
             {
                 return HttpNotFound();
             }
+            else
+            {
+                var acc = db.Accounts.Find(tr.AccountId); // if Account does not belong to household, refuse access.
+                if (!hh.Accounts.Contains(acc))
+                {
+                    tr = null;
+                    return HttpNotFound();
+                }
+            }
             return View(tr);
         }
 
-        // POST: Accounts/Delete/5
+        // POST: Transactions/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
@@ -183,6 +209,7 @@ namespace Budget.Controllers
             return RedirectToAction("Details", "Accounts", new { id = acc.Id});
         }
 
+        [Route ("TransactionsByType(Income/Expense)")]
         public ActionResult TransByType()
         {
             TransByTypeViewModel tbt = new TransByTypeViewModel();
@@ -192,7 +219,7 @@ namespace Budget.Controllers
             tbt.Transactions = hh.Accounts.SelectMany(t => t.Transactions).ToList();
             return View(tbt);
         }
-
+        [Route ("TransactionsByCategory")]
         public ActionResult TransByCat()
         {
             TransByCatViewModel tcm = new TransByCatViewModel();

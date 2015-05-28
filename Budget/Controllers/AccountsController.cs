@@ -26,13 +26,17 @@ namespace Budget.Models
         }
 
         // GET: Accounts/Details/5
+        [Route("Accounts/{id?}/Transactions")]
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            var hh = db.Households.Find(Convert.ToInt32(User.Identity.GetHouseholdId()));
             Account account = db.Accounts.Find(id);
+            if (!hh.Accounts.Contains(account)) // if account id does not belong to household - refuse access
+                account = null;
             if (account == null)
             {
                 return HttpNotFound();
@@ -43,7 +47,7 @@ namespace Budget.Models
         // GET: Accounts/Create
         public ActionResult Create()
         {
-            ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name");
+            //ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name");
             return View();
         }
 
@@ -67,19 +71,20 @@ namespace Budget.Models
         }
 
         // GET: Accounts/Edit/5
-        public ActionResult Edit(int? id)
+        public PartialViewResult Edit(int? id)
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                //return;
+                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Account account = db.Accounts.Find(id);
-            if (account == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name", account.HouseholdId);
-            return View(account);
+            var hh = db.Households.Find(Convert.ToInt32(User.Identity.GetHouseholdId()));
+            if (!hh.Accounts.Contains(account)) // if account id does not belong to household - refuse access
+                account = null;
+            
+            //ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name", account.HouseholdId);
+            return PartialView("_Edit",account);
         }
 
         // POST: Accounts/Edit/5

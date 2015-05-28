@@ -45,9 +45,12 @@
                                     @Html.DisplayFor(modelItem => item.Amount)
                                 </td>
                                 <td>
-                                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                                    <button class="ed" data-id="@item.Id"><i class="icon glyphicon glyphicon-edit"></i></button>
+
+                                    <button class="buton" data-toggle="modal" data-id="@item.Id"
+                                            data-target="#DeleteModal" data-name="@item.Name" data-amount="@item.Amount">
+                                        <i class="icon glyphicon glyphicon-trash"></i>
+                                    </button>
                                 </td>
                             </tr>
                         }
@@ -55,6 +58,66 @@
                 </table>
                
             </div>
-            </div>
+        </div>
+        <div class="col-xs-12 col-md-6">
+            <div id="editView"> </div>
         </div>
     </div>
+</div>
+
+<!--Delete Modal-->
+<div class="modal modal-primary" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icon glyphicon glyphicon-remove"></i></button>
+                <h4 class="modal-title">Delete BudgetItem</h4>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this BudgetItem ? </p>
+                <p>
+                    <div class="Name">Name:  </div>
+                    <br />
+                    <div class="Amt">Amount: </div>
+                </p>
+            </div>
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-md-offset-7 col-md-2">
+                        <form id="delForm" action="~/BudgetItems/Delete" method="post">
+                            @Html.AntiForgeryToken()
+                            <input id="formdata" type="hidden" name="id" value="" />
+
+                            <div class="form-actions no-color">
+
+                                <button type="submit" value="Delete" class="btn btn-primary"><i class="icon glyphicon glyphicon-trash"></i>Delete</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-warning" data-dismiss="modal"><i class="icon glyphicon glyphicon-remove"></i>Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+            $('.ed').click(function () {
+                $('#editView').load('/BudgetItems/edit/' + $(this).data('id'));
+            });
+            $('.buton').click(function () {
+
+                $('#formdata').attr('value', $(this).attr('data-id'));
+                $('.Name').text($(this).attr('data-name'));
+                $('.Amt').text($(this).data('amount'));
+            });
+        });
+
+    </script>
+    }

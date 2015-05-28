@@ -32,6 +32,9 @@ namespace Budget.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Category category = db.Categories.Find(id);
+            var hh = db.Households.Find(Convert.ToInt32(User.Identity.GetHouseholdId()));
+            if (!hh.Categories.Contains(category)) // if category id does not belong to household - refuse access
+                category = null;
             if (category == null)
             {
                 return HttpNotFound();
@@ -72,19 +75,22 @@ namespace Budget.Controllers
         }
 
         // GET: Categories/Edit/5
-        public ActionResult Edit(int? id)
+        public PartialViewResult Edit(int? id)
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Category category = db.Categories.Find(id);
+            var hh = db.Households.Find(Convert.ToInt32(User.Identity.GetHouseholdId()));
+            if (!hh.Categories.Contains(category)) // if category id does not belong to household - refuse access
+                category = null;
             if (category == null)
             {
-                return HttpNotFound();
+                //return HttpNotFound();
             }
             ViewBag.CategoryTypeId = new SelectList(db.CategoryTypes, "Id", "Name", category.CategoryTypeId);
-            return View(category);
+            return PartialView(category);
         }
 
         // POST: Categories/Edit/5
@@ -129,7 +135,8 @@ namespace Budget.Controllers
             {
                 cat = db.Categories.Where(c=>c.Name == "MiscIncome").FirstOrDefault();
             }
-            else{
+            else
+            {
                  cat = db.Categories.Where(c=>c.Name == "MiscExpense").FirstOrDefault();
             }
             // change cat of budgetitems to Misc
