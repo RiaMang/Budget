@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using System.Net;
 using System.Data.Entity;
+using System.IO;
 
 namespace Budget.Controllers
 {
@@ -29,19 +30,19 @@ namespace Budget.Controllers
         }
 
         //get Create Transactions
-        public PartialViewResult _AddTrans(int id)
+        public ActionResult Create(int id)
         {
             var hh = db.Households.Find(Convert.ToInt32(User.Identity.GetHouseholdId()));
             ViewBag.CategoryId = new SelectList(hh.Categories, "Id", "Name");
             ViewBag.CategoryTypeId = new SelectList(db.CategoryTypes, "Id", "Name");
             TempData["AccId"] = id;
-            return PartialView();
+            return View();
         }
 
         //get Create Transactions
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult _AddTrans(Transaction tr)
+        public ActionResult Create(Transaction tr)
         {
             var accId = (int)TempData["AccId"];
             if(ModelState.IsValid)
@@ -69,18 +70,83 @@ namespace Budget.Controllers
             }
             var hh = db.Households.Find(Convert.ToInt32(User.Identity.GetHouseholdId()));
             ViewBag.CategoryId = new SelectList(hh.Categories, "Id", "Name",tr.CategoryId);
-            //return PartialView("_AddTrans", tr);
-            return RedirectToAction("Details", "Accounts", new { Id = accId, tr });
+            return View(tr);
+            //return RedirectToAction("Details", "Accounts", new { Id = accId, tr });
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Upload(int? id, HttpPostedFileBase fileCSV)
+        {
+            if (fileCSV != null && fileCSV.ContentLength > 0)
+            {
+                //check the file name to make sure its an image
+                var ext = Path.GetExtension(fileCSV.FileName).ToLower();
+                if (ext != ".csv")
+                    ModelState.AddModelError("fileCSV", "Invalid Format."); // throw an error
+            }
+            if (ModelState.IsValid)
+            {
+                if (fileCSV != null)
+                {
+                    var filePath = "/Uploads/";
+                    var absPath = Server.MapPath("~" + filePath);
+                    var FileUrl = filePath + fileCSV.FileName;
+                    ////save image
+                    filePath = Path.Combine(absPath, fileCSV.FileName);
+                    fileCSV.SaveAs(filePath);
+                    var fileContent = System.IO.File.ReadAllText(filePath);
+                    //char[] delim = {'\r', '\n'};
+                    string [] records = fileContent.Split('\r','\n');
+                    string[] fields={" "," "};
+                    foreach (var rec in records)
+                    {
+                        if(rec!="")
+                        {
+                            Transaction tr = new Transaction();
+                            tr.TransDate = System.DateTimeOffset.Now;
+                            tr.AccountId = (int)id;
+                            var user = db.Users.Find(User.Identity.GetUserId());
+                            tr.UpdatedBy = user.Name;
+                             
+                            fields = rec.Split(',');
+                            tr.Description = fields[0];
+                            tr.Amount = Convert.ToDecimal(fields[1]);
+                            tr.RecAmount = Convert.ToDecimal(fields[1]);
+                            tr.CategoryId = Convert.ToInt32(fields[2]);
+                            db.Transactions.Add(tr);
+                        }
+
+                    }
+                    db.SaveChanges();
+
+
+                    //return Json(fields, JsonRequestBehavior.AllowGet);
+                    return RedirectToAction("Details", "Accounts", new { id = id });
+
+                    ////relative server path
+                    //var filePath = "/Uploads/";
+                    //// path on physical drive on server
+                    //var absPath = Server.MapPath("~" + filePath);
+                    //// media url for relative path
+                    //tatt.FileUrl = filePath + attach.FileName;
+                    ////save image
+                    //tatt.FilePath = Path.Combine(absPath, attach.FileName);
+                    //attach.SaveAs(tatt.FilePath);
+                }
+            }
+            return Json(" ", JsonRequestBehavior.AllowGet);
+        }
+        
+        
         // GET: Transactions/Edit/5
         
-        public PartialViewResult Edit(int? id)
+        public ActionResult Edit(int? id)
         {
             if (id == null)
             {
-                return PartialView(null);
-                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                //return PartialView(null);
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             
             Transaction tr = db.Transactions.Find(id);
@@ -88,23 +154,23 @@ namespace Budget.Controllers
             
             if (tr == null)
             {
-                return PartialView(null);
-                //return HttpNotFound();
+                //return PartialView(null);
+                return HttpNotFound();
             }
             else
             {
                 var acc = db.Accounts.Find(tr.AccountId); // if Account does not belong to household, refuse access.
                 if (!hh.Accounts.Contains(acc))
                 {
-                    tr = null;
-                    //return HttpNotFound();
+                    //tr = null;
+                    return HttpNotFound();
                 }
             }
             
             ViewBag.CategoryId = new SelectList(hh.Categories, "Id", "Name", tr.CategoryId);
             ViewBag.AccountId = new SelectList(hh.Accounts, "Id", "Name", tr.AccountId);
-            return PartialView("_Edit",tr);
-            //return View(tr);
+            //return PartialView("_Edit",tr);
+            return View(tr);
         }
 
         // POST: Accounts/Edit/5
@@ -216,7 +282,8 @@ namespace Budget.Controllers
             var hh = db.Households.Find(Convert.ToInt32(User.Identity.GetHouseholdId()));
             tbt.Types = db.CategoryTypes.ToList();
             tbt.Categories = hh.Categories.ToList();
-            tbt.Transactions = hh.Accounts.SelectMany(t => t.Transactions).ToList();
+            var tod = System.DateTimeOffset.Now;
+            tbt.Transactions = hh.Accounts.SelectMany(t => t.Transactions).Where(d=>d.TransDate.Year==tod.Year).ToList();
             return View(tbt);
         }
         [Route ("TransactionsByCategory")]
@@ -225,7 +292,8 @@ namespace Budget.Controllers
             TransByCatViewModel tcm = new TransByCatViewModel();
             var hh = db.Households.Find(Convert.ToInt32(User.Identity.GetHouseholdId()));
             tcm.Categories = hh.Categories.ToList();
-            tcm.Transactions = hh.Accounts.SelectMany(t => t.Transactions).ToList();
+            var tod = System.DateTimeOffset.Now;
+            tcm.Transactions = hh.Accounts.SelectMany(t => t.Transactions).Where(d => d.TransDate.Year == tod.Year).ToList();
             return View(tcm);
         }
 

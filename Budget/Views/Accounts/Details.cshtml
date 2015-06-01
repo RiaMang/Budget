@@ -1,110 +1,130 @@
 ﻿
 @model Budget.Models.Account
 
-<div class="page-body">
-    
-    <div class="row">
+<link href="~/assets/jquery.dataTables.css" rel="stylesheet" />
 
-        <div class="col-md-8">
+<div class="page-body">
+
+    <div class="row">
+        <div class="col-md-2">
+            <span>Upload a CSV file</span>
+        </div>
+
+        <form role="form" action="@Url.Action("Upload","Transactions")" method="Post" enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
+            <div class="col-md-4">
+                <input type="hidden" name="id" value="@Model.Id" />
+                <div class="form-group">
+                    <input name="fileCSV" type="file" id="fileupload" class="form-control" />
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <button type="submit">Submit</button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+    <div class="row">
+        <div class="col-md-10">
             <div class="well with-header  with-footer">
                 <div class="header bg-blue">
                     @Model.Name <span>   -    </span>@Model.Balance
-                    <span class="pull-right">@Html.ActionLink("Categories","Index","Categories")</span>
+                    @if (Model.Balance < 100)
+                    {
+                        <span class="col-md-offset-2" style="color:red">Balance < 100</span>
+                    }
+                    <span class="pull-right">@Html.ActionLink("Create", "Create", "Transactions", new { id = @Model.Id}, null)</span>
                 </div>
-                <div id="partialTrans">
-                    @*@Html.Action("_Transactions", "Transactions", new { id = Model.Id })*@
-                    <table class="table table-hover">
-                        <thead class="bordered-darkorange">
+
+                <table id="Trans" class="display" cellspacing="0">
+                    <thead class="bordered-darkorange">
+                        <tr>
+                            <th>
+                                Date
+                            </th>
+                            <th>
+                                Description
+                            </th>
+                            <th>
+                                Category
+                            </th>
+                            <th>
+                                Amount
+                            </th>
+                            <th>
+                                Reconciled
+                            </th>
+                            <th>
+                                UpdatedBy
+                            </th>
+                            <th>
+
+                            </th>
+                            <th>
+
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var trans in Model.Transactions)
+                        {
                             <tr>
-                                <th>
-                                   Date
-                                </th>
-                                <th>
-                                   Description
-                                </th>
-                                <th>
-                                    Category
-                                </th>
-                                <th>
-                                    Amount
-                                </th>
-                                <th>
-                                    Reconciled
-                                </th>
-                                <th>
-                                    UpdatedBy
-                                </th>
-                                <th>
-                                    
-                                </th>
-                                <th>
-                                    
-                                </th>
+                                <td>
+                                    @trans.TransDate.DateTime.ToLongDateString()
+                                </td>
+                                <td class="Description">
+                                    @Html.DisplayFor(model => trans.Description)
+                                </td>
+                                <td class="Category">
+                                    @Html.DisplayFor(model => trans.Category.Name)
+                                </td>
+                                <td class="Amount">
+                                    @Html.DisplayFor(model => trans.Amount)
+                                </td>
+                                <td class="RecAmount">
+                                    @Html.DisplayFor(model => trans.RecAmount)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => trans.UpdatedBy)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Edit", "Edit", "Transactions", new { id = trans.Id }, null)
+                                    @*@Html.ActionLink("Delete", "Delete", "Transactions", new { id = trans.Id }, null)*@
+                                    @*<button class="ebuton" data-id="@trans.Id">
+                                        <i class="icon glyphicon glyphicon-edit"></i>
+                                    </button>*@
+                                </td>
+                                <td>
+                                    <button class="buton" data-toggle="modal" data-id="@trans.Id"
+                                            data-target="#DeleteModal" data-description="@trans.Description" data-amount="@trans.Amount">
+                                        <i class="icon glyphicon glyphicon-trash"></i>
+                                    </button>
+                                </td>
+
+
                             </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var trans in Model.Transactions)
-                            {
-                                <tr>
-                                    <td>
-                                        @trans.TransDate.DateTime.ToLongDateString()
-                                    </td>
-                                    <td class="Description">
-                                        @Html.DisplayFor(model => trans.Description)
-                                    </td>
-                                    <td class="Category">
-                                        @Html.DisplayFor(model => trans.Category.Name)
-                                    </td>
-                                    <td class="Amount">
-                                        @Html.DisplayFor(model => trans.Amount)
-                                    </td>
-                                    <td class="RecAmount">
-                                        @Html.DisplayFor(model => trans.RecAmount)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(model => trans.UpdatedBy)
-                                    </td>
-                                    <td>
-                                        @*@Html.ActionLink("Edit", "Edit", "Transactions", new { id = trans.Id }, null) |*@
-                                        @*@Html.ActionLink("Delete", "Delete", "Transactions", new { id = trans.Id }, null)*@
-                                        <button class="ebuton" data-id="@trans.Id" >
-                                            <i class="icon glyphicon glyphicon-edit"></i>
-                                        </button>
-                                    </td>
-                                    <td>
-                                        <button class="buton" data-toggle="modal" data-id="@trans.Id"
-                                                data-target="#DeleteModal" data-description="@trans.Description" data-amount="@trans.Amount">
-                                            <i class="icon glyphicon glyphicon-trash"></i>
-                                        </button>
-                                    </td>
 
-                                   
-                                </tr>
-                               
-                            }
+                        }
 
-                        </tbody>
-                    </table>
-                </div> 
+                    </tbody>
+                </table>
+
             </div>
             <p>
-                @*@Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |*@
+                @*@Html.ActionLink("Edit", "Edit",new { id = Model.Id }) |*@
                 @Html.ActionLink("Back to Accounts List", "Index")
             </p>
         </div>
-        <div id="AddTrans" class="col-md-4" >
-            
-                    <p>@ViewBag.Note</p>
-                    <div id="edit">
-                        @Html.Action("_AddTrans", "Transactions", new { id = Model.Id })
-                    </div>
-                
-        </div>
-      </div>
+        
     </div>
+    
 
-<!--Delete Modal-->
-<div class="modal modal-primary" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+</div>
+
+        <!--Delete Modal-->
+        <div class="modal modal-primary" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -113,97 +133,61 @@
                     </div>
                     <div class="modal-body">
                         <p>Are you sure you want to delete this transaction ? </p>
-                        <p>       <div class="Desc">Description:  </div>
+                        <p>
+                            <div class="Desc">Description:  </div>
                             <br />
                             <div class="Amt">Amount: </div>
                         </p>
                     </div>
-                <div class="modal-footer">
-                    <div class="row">
-                        <div class="col-md-offset-7 col-md-2">
-                            <form id="delForm" action="~/Transactions/Delete" method="post">
-                                @Html.AntiForgeryToken()
-                                <input id="formdata" type="hidden" name="id" value="" />
+                    <div class="modal-footer">
+                        <div class="row">
+                            <div class="col-md-offset-7 col-md-2">
+                                <form id="delForm" action="~/Transactions/Delete" method="post">
+                                    @Html.AntiForgeryToken()
+                                    <input id="formdata" type="hidden" name="id" value="" />
 
-                                <div class="form-actions no-color">
+                                    <div class="form-actions no-color">
 
-                                    <button type="submit" value="Delete" class="btn btn-primary"><i class="icon glyphicon glyphicon-trash"></i>Delete</button>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="col-md-2">
-                            <button type="button" class="btn btn-warning" data-dismiss="modal"><i class="icon glyphicon glyphicon-remove"></i>Cancel</button>
+                                        <button type="submit" value="Delete" class="btn btn-primary"><i class="icon glyphicon glyphicon-trash"></i>Delete</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-md-2">
+                                <button type="button" class="btn btn-warning" data-dismiss="modal"><i class="icon glyphicon glyphicon-remove"></i>Cancel</button>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
 
-
-@*<!--Edit Modal-->
-<div class="modal modal-primary" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icon glyphicon glyphicon-remove"></i></button>
-                <h4 class="modal-title">Edit Transaction</h4>
-            </div>
-            <div class="modal-body">
-                
-                <p>
-                    
-                </p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-warning" data-dismiss="modal"><i class="icon glyphicon glyphicon-remove"></i>Cancel</button>
-                
-                <form id="delForm" action="~/Transactions/Delete" method="post">
-                    @Html.AntiForgeryToken()
-                    <input id="formdata" type="hidden" name="id" value="" />
-
-                    <div class="form-actions no-color">
-
-                        <button type="submit" value="Delete" class="btn btn-primary"><i class="icon glyphicon glyphicon-trash"></i>Delete</button>
-                    </div>
-                </form>
-
-
-
-
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->*@
 
 @section Scripts{
-<script type="text/javascript">
-    $(function()
-    {
-        console.log("Document is ready"+$('.buton').attr('data-id'));
-        $('.buton').click(function()
-        {
-            
-            $('#formdata').attr('value', $(this).attr('data-id'));
-            $('.Desc').text($(this).attr('data-description'));
-            $('.Amt').text($(this).data('amount'));
-        });
+            <script type="text/javascript" src="//cdn.datatables.net/1.10.6/js/jquery.dataTables.min.js"></script>
+            <script type="text/javascript">
+                $(function () {
+                    $('#Trans').DataTable();
+                    $('.buton').click(function () {
+                        $('#formdata').attr('value', $(this).attr('data-id'));
+                        $('.Desc').text($(this).attr('data-description'));
+                        $('.Amt').text($(this).data('amount'));
+                    });
 
-        $('.ebuton').click(function () {
-            console.log('inside the click button' + $(this).data('id'));
-            
-            $.ajax({
-                type: "GET",
-                url: "/Transactions/Edit/"+$(this).data('id'),
-                data: function (d) {
-                    d.id = $(this).data('id')
-                },
-                
-            }).then(function(response) {
-                $('#edit').replaceWith(response);
-                //console.log(response);
-            })
-        });
-    });
-</script>
+                    //$('.ebuton').click(function () {
+
+
+                    //    $.ajax({
+                    //        type: "GET",
+                    //        url: "/Transactions/Edit/" + $(this).data('id'),
+                    //        data: function (d) {
+                    //            d.id = $(this).data('id')
+                    //        },
+
+                    //    }).then(function (response) {
+                    //        $('#edit').replaceWith(response);
+                    //        //console.log(response);
+                    //    })
+                    //});
+                });
+            </script>
 }

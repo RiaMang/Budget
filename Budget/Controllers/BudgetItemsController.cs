@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Budget.Models;
+using Newtonsoft.Json;
 
 namespace Budget.Controllers
 {
@@ -41,13 +42,30 @@ namespace Budget.Controllers
             return View(budgetItem);
         }
 
+        public ActionResult GetChart()
+        {
+            var hh = db.Households.Find(User.Identity.GetHouseholdId<int>());
+
+            var donut = (from c in hh.Categories
+                         where c.CategoryType.Name=="Expense"
+                        let sum = (from b in c.BudgetItems
+                                   select b.Amount).DefaultIfEmpty().Sum()
+                        select new
+                        {
+                            label = c.Name,
+                            value = sum,
+
+                        }).ToArray();
+            return Content(JsonConvert.SerializeObject(donut), "application/json");
+        }
+
         // GET: BudgetItems/Create
-        public ActionResult Create()
+        public PartialViewResult _Create()
         {
             var hh = db.Households.Find(Convert.ToInt32(User.Identity.GetHouseholdId()));
             ViewBag.CategoryId = new SelectList(hh.Categories, "Id", "Name");
             //ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name");
-            return View();
+            return PartialView();
         }
 
         // POST: BudgetItems/Create
@@ -62,12 +80,12 @@ namespace Budget.Controllers
                 budgetItem.HouseholdId = Convert.ToInt32(User.Identity.GetHouseholdId());
                 db.BudgetItems.Add(budgetItem);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index","BudgetItems");
             }
             var hh = db.Households.Find(Convert.ToInt32(User.Identity.GetHouseholdId()));
             ViewBag.CategoryId = new SelectList(hh.Categories, "Id", "Name", budgetItem.CategoryId);
             //ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name", budgetItem.HouseholdId);
-            return View(budgetItem);
+            return RedirectToAction("Index", "BudgetItems", new { budgetItem = budgetItem });
         }
 
         // GET: BudgetItems/Edit/5

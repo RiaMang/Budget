@@ -27,7 +27,17 @@ namespace Budget.Controllers
         [AuthorizeHouseholdRequired]
         public ActionResult Dashboard()
         {
-            return View();
+            var hh = db.Households.Find(Convert.ToInt32(User.Identity.GetHouseholdId()));
+            List<Transaction> model = new List<Transaction>();
+            var accounts = db.Accounts.Where(a => a.HouseholdId == hh.Id).ToList();
+            var tod = System.DateTimeOffset.Now;
+            tod = tod.AddDays(-7);
+            foreach (var acc in accounts)
+            {
+                var tr = acc.Transactions.Where(t => t.TransDate > tod).ToList();
+                model.AddRange(tr);
+            }
+            return View(model);
         }
 
         public ActionResult GetChart()
@@ -39,7 +49,7 @@ namespace Budget.Controllers
                 new { year= "2012", value= 20 }};
 
             var house = db.Households.Find(User.Identity.GetHouseholdId<int>());
-
+            var tod = System.DateTimeOffset.Now;
             decimal totalExpense = 0;
             decimal totalBudget = 0;
             var totalAcc = (from a in house.Accounts
@@ -49,6 +59,7 @@ namespace Budget.Controllers
             var bar = (from c in house.Categories
                        where c.CategoryType.Name == "Expense"
                        let aSum = (from t in c.Transactions
+                                   where t.TransDate.Year == tod.Year && t.TransDate.Month == tod.Month
                                      select t.Amount).DefaultIfEmpty().Sum()
                        let bSum = (from b in c.BudgetItems
                                        select b.Amount).DefaultIfEmpty().Sum()
@@ -60,10 +71,11 @@ namespace Budget.Controllers
                            Actual = aSum,
                            Budgeted = bSum
                        }).ToArray();
-
+           
             var donut = (from c in house.Categories
                         where c.CategoryType.Name == "Expense"
                         let aSum = (from t in c.Transactions
+                                    where t.TransDate.Year==tod.Year && t.TransDate.Month == tod.Month
                                     select t.Amount).DefaultIfEmpty().Sum()
                         select new 
                         {

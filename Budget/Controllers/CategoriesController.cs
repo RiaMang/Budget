@@ -43,10 +43,10 @@ namespace Budget.Controllers
         }
 
         // GET: Categories/Create
-        public ActionResult Create()
+        public PartialViewResult _Create()
         {
             ViewBag.CategoryTypeId = new SelectList(db.CategoryTypes, "Id", "Name");
-            return View();
+            return PartialView();
         }
 
         // POST: Categories/Create

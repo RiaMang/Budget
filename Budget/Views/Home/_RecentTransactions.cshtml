@@ -1,7 +1,9 @@
 ﻿
 @model IEnumerable<Budget.Models.Transaction>
 
-<table class="table table-hover">
+<link href="~/assets/jquery.dataTables.css" rel="stylesheet" />
+
+<table id="Trans" class="display">
     <thead class="bordered-darkorange">
         <tr>
             <th>
@@ -52,3 +54,13 @@
 
     </tbody>
 </table>
+
+@section scripts{
+<script type="text/javascript" src="//cdn.datatables.net/1.10.6/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#Trans').DataTable();
+        });
+        
+    </script>
+}

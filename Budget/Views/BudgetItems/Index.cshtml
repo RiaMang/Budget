@@ -11,7 +11,7 @@
             <div class="well with-header  with-footer">
                 <div class="header bg-blue">
                     BudgetItems
-                    <span class="padding-left-30">@Html.ActionLink(" Create New ", "Create")</span>
+                    @*<span class="padding-left-30">@Html.ActionLink(" Create New ", "Create")</span>*@
                     <span class="pull-right">   @Html.ActionLink(" Categories ", "Index", "Categories")</span>
                 </div>
                 <table class="table table-hover">
@@ -60,7 +60,16 @@
             </div>
         </div>
         <div class="col-xs-12 col-md-6">
-            <div id="editView"> </div>
+            <div id="MyChart">
+               
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-md-6">
+            <div id="editView">
+                @Html.Action("_Create", "BudgetItems") 
+            </div>
         </div>
     </div>
 </div>
@@ -106,8 +115,18 @@
 
 
 @section scripts{
+<script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
     <script type="text/javascript">
         $(function () {
+
+            $.post('@Url.Action("GetChart","BudgetItems")').then(function (response) {
+                new Morris.Donut({
+                    element: 'MyChart',
+                    data: response,
+                    resize: true
+                })
+            });
             $('.ed').click(function () {
                 $('#editView').load('/BudgetItems/edit/' + $(this).data('id'));
             });

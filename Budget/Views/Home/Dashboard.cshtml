@@ -1,8 +1,9 @@
-﻿@{
+﻿@model IEnumerable<Budget.Models.Transaction>
+@{
     ViewBag.Title = "Home Page";
 }
 
-
+<link href="~/assets/jquery.dataTables.css" rel="stylesheet" />
 
 <div class="page-body">
     <div class="row">
@@ -66,8 +67,57 @@
                         <span class="widget-caption"> Recent Transactions</span>
                     </div>
                     <div class="widget-body">
+                        <table id="Trans" class="display">
+                            <thead class="bordered-darkorange">
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.TransDate)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Description)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Category.Name)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Amount)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.RecAmount)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.UpdatedBy)
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var trans in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @trans.TransDate.DateTime.ToLongDateString())
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(model => trans.Description)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(model => trans.Category.Name)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(model => trans.Amount)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(model => trans.RecAmount)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(model => trans.UpdatedBy)
+                                        </td>
+                                    </tr>
+                                }
 
-                        @Html.Action("_RecentTransactions")
+
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -94,6 +144,8 @@
 @section scripts {
     <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+<script type="text/javascript" src="//cdn.datatables.net/1.10.6/js/jquery.dataTables.min.js"></script>
+
     <script>
         $(document).ready(function () {
             $.post('@Url.Action("GetChart", "Home")').then(function (response) {
@@ -124,8 +176,9 @@
                     //value: 'Value',
                     resize: true
                 });
-            })
-        })
+            });
+            $('#Trans').DataTable();
+        });
     </script>
 }
 

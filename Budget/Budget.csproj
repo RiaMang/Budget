@@ -367,6 +367,7 @@
     <Content Include="assets\img\tree-icons.png" />
     <Content Include="assets\jqplot.donutRenderer.min.js" />
     <Content Include="assets\jqplot.pieRenderer.min.js" />
+    <Content Include="assets\jquery.dataTables.css" />
     <Content Include="assets\jquery.jqplot.min.css" />
     <Content Include="assets\jquery.jqplot.min.js" />
     <Content Include="assets\js\beyond.js" />
@@ -735,7 +736,7 @@
     <Content Include="Scripts\_references.js" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Web.config" />
-    <Content Include="Views\Accounts\Create.cshtml" />
+    <Content Include="Views\Accounts\_Create.cshtml" />
     <Content Include="Views\Accounts\Delete.cshtml" />
     <Content Include="Views\Accounts\Details.cshtml" />
     <Content Include="Views\Accounts\Edit.cshtml" />
@@ -755,12 +756,12 @@
     <Content Include="Views\Account\UserAccount.cshtml" />
     <Content Include="Views\Account\VerifyCode.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
-    <Content Include="Views\BudgetItems\Create.cshtml" />
+    <Content Include="Views\BudgetItems\_Create.cshtml" />
     <Content Include="Views\BudgetItems\Delete.cshtml" />
     <Content Include="Views\BudgetItems\Details.cshtml" />
     <Content Include="Views\BudgetItems\Edit.cshtml" />
     <Content Include="Views\BudgetItems\Index.cshtml" />
-    <Content Include="Views\Categories\Create.cshtml" />
+    <Content Include="Views\Categories\_Create.cshtml" />
     <Content Include="Views\Categories\Delete.cshtml" />
     <Content Include="Views\Categories\Details.cshtml" />
     <Content Include="Views\Categories\Edit.cshtml" />
@@ -786,7 +787,7 @@
     <Content Include="Views\Transactions\IncExp.cshtml" />
     <Content Include="Views\Transactions\TransByCat.cshtml" />
     <Content Include="Views\Transactions\TransByType.cshtml" />
-    <Content Include="Views\Transactions\_AddTrans.cshtml" />
+    <Content Include="Views\Transactions\Create.cshtml" />
     <Content Include="Views\Home\_RecentTransactions.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
@@ -805,6 +806,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Uploads\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
