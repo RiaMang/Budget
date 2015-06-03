@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "TransByCat";
 }
+<link href="~/assets/jquery.dataTables.css" rel="stylesheet" />
 
 <div class="page-body">
     <div class="row">
@@ -18,7 +19,7 @@
                     <div class="header bg-blue">
                         @cat.Name <span>   -    </span> @cat.CategoryType.Name
                     </div>
-                    <table class="table table-hover">
+                    <table class="transTab table table-hover">
                         <thead class="bordered-darkorange">
                             <tr>
                                 <th>
@@ -84,3 +85,12 @@
         </div>
     </div>
 </div>
+
+@section Scripts{
+    <script type="text/javascript" src="//cdn.datatables.net/1.10.6/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+           //$('.transTab').DataTable();
+        });
+    </script>
+}

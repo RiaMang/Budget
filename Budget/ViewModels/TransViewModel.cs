@@ -20,4 +20,18 @@ namespace Budget.Models
         public int? CategoryId { get; set; }
         public string CategoryName { get; set; }
     }
+
+    public class TrViewModel
+    {
+        public int Id { get; set; }
+        public int AccountId { get; set; }
+        public DateTimeOffset TransDate { get; set;}
+        public string Description { get; set; }
+        public string Category {get; set;}
+        public decimal Amount {get; set;}
+        public decimal Reconciled {get; set;}
+        public string UpdatedBy {get; set;}
+        public string Edit { get; set; }
+        public string Delete { get; set; }
+    }
 }

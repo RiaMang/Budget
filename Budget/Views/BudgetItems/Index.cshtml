@@ -45,9 +45,9 @@
                                     @Html.DisplayFor(modelItem => item.Amount)
                                 </td>
                                 <td>
-                                    <button class="ed" data-id="@item.Id"><i class="icon glyphicon glyphicon-edit"></i></button>
+                                    <button class="ed btn btn-default" data-id="@item.Id"><i class="icon glyphicon glyphicon-edit"></i></button>
 
-                                    <button class="buton" data-toggle="modal" data-id="@item.Id"
+                                    <button class="buton btn btn-default" data-toggle="modal" data-id="@item.Id"
                                             data-target="#DeleteModal" data-name="@item.Name" data-amount="@item.Amount">
                                         <i class="icon glyphicon glyphicon-trash"></i>
                                     </button>
@@ -60,15 +60,22 @@
             </div>
         </div>
         <div class="col-xs-12 col-md-6">
-            <div id="MyChart">
-               
+            <div class="widget">
+                <div class="widget-header bordered-bottom bordered-blue">
+                    <span class="widget-caption">Budget for the month</span>
+                </div>
+                <div class="widget-body">
+                    <div id="MyChart">
+
+                    </div>
+                </div>
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-xs-12 col-md-6">
             <div id="editView">
-                @Html.Action("_Create", "BudgetItems") 
+                @Html.Action("_Create", "BudgetItems")
             </div>
         </div>
     </div>
@@ -127,7 +134,7 @@
                     resize: true
                 })
             });
-            $('.ed').click(function () {
+            $('body').on('click','.ed',function () {
                 $('#editView').load('/BudgetItems/edit/' + $(this).data('id'));
             });
             $('.buton').click(function () {

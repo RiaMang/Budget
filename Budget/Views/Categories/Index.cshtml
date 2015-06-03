@@ -37,9 +37,9 @@
                                     @Html.DisplayFor(modelItem => item.Name)
                                 </td>
                                 <td>
-                                    <button class="ed" data-id="@item.Id"><i class="icon glyphicon glyphicon-edit"></i></button> 
+                                    <button class="ed btn btn-default" data-id="@item.Id"><i class="icon glyphicon glyphicon-edit"></i></button> 
                                     
-                                    <button class="buton" data-toggle="modal" data-id="@item.Id"
+                                    <button class="buton btn btn-default" data-toggle="modal" data-id="@item.Id"
                                             data-target="#DeleteModal" data-name="@item.Name" data-type="@item.CategoryType.Name">
                                         <i class="icon glyphicon glyphicon-trash"></i>
                                     </button>

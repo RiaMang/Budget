@@ -111,10 +111,8 @@ Purchase: http://wrapbootstrap.com
             <!-- Page Sidebar -->
             <div class="page-sidebar" id="sidebar">
                 <!-- Page Sidebar Header-->
-                <div class="sidebar-header-wrapper">
-                    <input type="text" class="searchinput" />
-                    <i class="searchicon fa fa-search"></i>
-                    <div class="searchhelper">Search Reports, Charts, Emails or Notifications</div>
+                <div>
+                    <label> </label> 
                 </div>
                 <!-- /Page Sidebar Header -->
                 <!-- Sidebar Menu -->
@@ -122,42 +120,42 @@ Purchase: http://wrapbootstrap.com
                     <!--Dashboard-->
                     <li class="active">
                         <a href="@Url.Action("Dashboard", "home")">
-                            <i class="menu-icon glyphicon glyphicon-home"></i>
+                            <i class="menu-icon fa fa-dashboard"></i>
                             <span class="menu-text"> Dashboard </span>
                         </a>
                     </li>
                     <!--Group / Household-->
                     <li>
                         <a href="@Url.Action("Household", "home")">
-                            <i class="menu-icon fa fa-desktop"></i>
+                            <i class="menu-icon fa fa-users"></i>
                             <span class="menu-text"> Group </span> 
                         </a>
                     </li>
                     <!--Accounts-->
                     <li>
                         <a href="@Url.Action("Index", "Accounts")">
-                            <i class="menu-icon fa fa-th"></i>
+                            <i class="menu-icon fa fa-bank"></i>
                             <span class="menu-text"> Accounts </span>
                         </a>
                     </li>
                     <!--Transactions-->
                     <li>
                         <a href="@Url.Action("TransByType", "Transactions")">
-                            <i class="menu-icon glyphicon glyphicon-tasks"></i>
+                            <i class="menu-icon fa fa-credit-card"></i>
                             <span class="menu-text"> Transactions </span>
                         </a>
                     </li>
                     <!--BudgetItems-->
                     <li>
                         <a href="@Url.Action("Index","BudgetItems")" class="menu-dropdown">
-                            <i class="menu-icon fa fa-table"></i>
+                            <i class="menu-icon fa fa-th-list"></i>
                             <span class="menu-text"> Budget Items</span>
                         </a>
                     </li>
                     <!--Budgets-->
                     <li>
                         <a href="@Url.Action("Index","Budgets")" class="menu-dropdown">
-                            <i class="menu-icon fa fa-table"></i>
+                            <i class="menu-icon fa fa-bar-chart-o"></i>
                             <span class="menu-text"> Budget </span>
                         </a>
                     </li>

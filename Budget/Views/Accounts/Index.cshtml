@@ -36,13 +36,13 @@
                                     @Html.DisplayFor(modelItem => item.Balance)
                                 </td>
                                 <td>
-                                    <button class="ed" data-id="@item.Id" type="button"><i class="icon glyphicon glyphicon-edit"></i></button>
+                                    <button class="ed btn btn-default" data-id="@item.Id" type="button"><i class="icon glyphicon glyphicon-edit"></i></button>
                                 </td>
                                 <td>
-                                    <a href="@Url.Action("Details", new { id=@item.Id})" type="button"><i class="icon glyphicon glyphicon-list"></i></a>
+                                    <a class="btn btn-default" href="@Url.Action("Details", new { id=@item.Id})" type="button"><i class="icon glyphicon glyphicon-list"></i></a>
                                 </td>
                                 <td>
-                                    <button data-toggle="modal" data-target="#@item.Id"><i class="icon glyphicon glyphicon-trash"></i></button>
+                                    <button class="btn btn-default" data-toggle="modal" data-target="#@item.Id"><i class="icon glyphicon glyphicon-trash"></i></button>
                                     
                                 </td>
                             </tr>

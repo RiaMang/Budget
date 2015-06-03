@@ -20,7 +20,7 @@
             </div>
             <div class="col-md-4">
                 <div class="form-group">
-                    <button type="submit">Submit</button>
+                    <button class="btn btn-default" type="submit">Submit</button>
                 </div>
             </div>
         </form>
@@ -41,6 +41,8 @@
                 <table id="Trans" class="display" cellspacing="0">
                     <thead class="bordered-darkorange">
                         <tr>
+                            <th>Id</th>
+                            <th>AccountId</th>
                             <th>
                                 Date
                             </th>
@@ -60,15 +62,15 @@
                                 UpdatedBy
                             </th>
                             <th>
-
+                                Edit
                             </th>
                             <th>
-
+                                Delete
                             </th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var trans in Model.Transactions)
+                        @*@foreach (var trans in Model.Transactions)
                         {
                             <tr>
                                 <td>
@@ -90,14 +92,11 @@
                                     @Html.DisplayFor(model => trans.UpdatedBy)
                                 </td>
                                 <td>
-                                    @Html.ActionLink("Edit", "Edit", "Transactions", new { id = trans.Id }, null)
-                                    @*@Html.ActionLink("Delete", "Delete", "Transactions", new { id = trans.Id }, null)*@
-                                    @*<button class="ebuton" data-id="@trans.Id">
-                                        <i class="icon glyphicon glyphicon-edit"></i>
-                                    </button>*@
+                                    <a class="btn btn-default" href="@Url.Action("Edit", "Transactions", new {id = trans.Id })"><i class="icon glyphicon glyphicon-edit"></i></a>
+                                    
                                 </td>
                                 <td>
-                                    <button class="buton" data-toggle="modal" data-id="@trans.Id"
+                                    <button class="buton btn btn-default" data-toggle="modal" data-id="@trans.Id"
                                             data-target="#DeleteModal" data-description="@trans.Description" data-amount="@trans.Amount">
                                         <i class="icon glyphicon glyphicon-trash"></i>
                                     </button>
@@ -106,14 +105,14 @@
 
                             </tr>
 
-                        }
+                        }*@
 
                     </tbody>
                 </table>
 
             </div>
             <p>
-                @*@Html.ActionLink("Edit", "Edit",new { id = Model.Id }) |*@
+               
                 @Html.ActionLink("Back to Accounts List", "Index")
             </p>
         </div>
@@ -166,7 +165,56 @@
             <script type="text/javascript" src="//cdn.datatables.net/1.10.6/js/jquery.dataTables.min.js"></script>
             <script type="text/javascript">
                 $(function () {
-                    $('#Trans').DataTable();
+
+                    function formatDate(obj) {
+                        if (obj == null)
+                            return null;
+                        var dx = new Date(parseInt(obj.substr(6)));
+                        var dd = dx.getDate();
+                        var mm = dx.getMonth() + 1;
+                        var yy = dx.getFullYear();
+
+                        if (dd <= 9) {
+                            dd = "0" + dd;
+                        }
+                        if (mm <= 9) {
+                            mm = "0" + mm;
+                        }
+                        return mm + "." + dd + "." + yy;
+                    }
+
+                    $('#Trans').DataTable({
+                        "processing": true,
+                        "serverSide": true,
+                        "ajax": {
+                        "url": "@Url.Action("GetTransactions","Transactions")",
+                        "type": "Post",
+                        "data": function (d) {
+                            
+                            // d.custom = $('#myInput').val();
+                            // etc
+                        }
+                },
+                "columns": [
+                { "data": "Id", "visible": false },
+                { "data": "AccountId", "visible": false },
+                {
+                    "data": "TransDate",
+                    "render":formatDate
+                },
+                { "data": "Description" },
+                { "data": "Category"},
+                
+                { "data": "Amount" },
+                
+                { "data": "Reconciled" },
+                { "data": "UpdatedBy" },
+                { "data": "Edit" },
+                {"data": "Delete"}
+                ]
+                });
+                      
+                   // $('#Trans').DataTable();
                     $('.buton').click(function () {
                         $('#formdata').attr('value', $(this).attr('data-id'));
                         $('.Desc').text($(this).attr('data-description'));

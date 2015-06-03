@@ -8,6 +8,7 @@ using Microsoft.AspNet.Identity;
 using System.Net;
 using System.Data.Entity;
 using System.IO;
+using DataTables.Mvc;
 
 namespace Budget.Controllers
 {
@@ -22,7 +23,110 @@ namespace Budget.Controllers
         {
             return View();
         }
-        
+
+
+        public JsonResult GetTransactions([ModelBinder(typeof(DataTablesBinder))] IDataTablesRequest request)
+        {
+            var hh = db.Households.Find(User.Identity.GetHouseholdId<int>());
+            var trans = hh.Accounts.SelectMany(a => a.Transactions);
+
+            var totalCount = trans.Count();
+            var search = request.Search.Value;
+
+
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                trans = trans.Where(t => t.Amount.ToString().Contains(search) || t.Description.Contains(search)
+                    || t.RecAmount.ToString().Contains(search) || t.UpdatedBy.Contains(search) || t.Category.Name.Contains(search));
+
+            }
+
+
+            trans = trans.OrderByDescending(t => t.TransDate);
+
+            var column = request.Columns.FirstOrDefault(r => r.IsOrdered == true);
+            if (column != null)
+            {
+                if (column.SortDirection == Column.OrderDirection.Descendant)
+                {
+                    switch (column.Data)
+                    {
+                        case "Title":
+                            trans = trans.OrderByDescending(t => t.TransDate);
+                            break;
+                        case "Description":
+                            trans = trans.OrderByDescending(t => t.Description);
+                            break;
+                        case "Category":
+                            trans = trans.OrderByDescending(t => t.Category.Name);
+                            break;
+                        
+                        case "Amount":
+                            trans = trans.OrderByDescending(t => t.Amount);
+                            break;
+                        case "Reconciled":
+                            trans = trans.OrderByDescending(t => t.RecAmount);
+                            break;
+                        
+                        case "UpdatedBy":
+                            trans = trans.OrderByDescending(t => t.UpdatedBy);
+                            break;
+                        
+                    }
+                }
+                else
+                {
+                    switch (column.Data)
+                    {
+                        case "Title":
+                            trans = trans.OrderBy(t => t.TransDate);
+                            break;
+                        case "Description":
+                            trans = trans.OrderBy(t => t.Description);
+                            break;
+                        case "Category":
+                            trans = trans.OrderBy(t => t.Category.Name);
+                            break;
+
+                        case "Amount":
+                            trans = trans.OrderBy(t => t.Amount);
+                            break;
+                        case "Reconciled":
+                            trans = trans.OrderBy(t => t.RecAmount);
+                            break;
+
+                        case "UpdatedBy":
+                            trans = trans.OrderBy(t => t.UpdatedBy);
+                            break;
+                    }
+                }
+            }
+
+            //var filteredColumns = request.Columns.GetFilteredColumns();
+            //foreach (var col in filteredColumns)
+            //{
+            //     Filter(column.Data, column.Search.Value, column.Search.IsRegexValue); 
+            //}
+
+            var uug = trans.Skip(request.Start).Take(request.Length);
+            var paged = uug.Select(t => new TrViewModel
+            {
+                Id = t.Id,
+                AccountId = t.AccountId,
+                TransDate = t.TransDate,
+                Description = t.Description,
+                Category = t.Category.Name,
+                Amount = t.Amount,
+                Reconciled = t.RecAmount,
+                UpdatedBy = t.UpdatedBy,
+                Edit = "<a class=\"btn btn-default\" href=\"/Transactions/Edit/"+ t.Id + "\"><i class=\"icon glyphicon glyphicon-edit\"></i></a>",
+                Delete = "<button class=\"buton btn btn-default\" data-toggle=\"modal\" data-id=\""+t.Id+"\" data-target=\"#DeleteModal\" data-description=\""+t.Description+"\" data-amount=\""+t.Amount+"\"><i class=\"icon glyphicon glyphicon-trash\"></i></button>",
+                });
+            //return Json(new DataTablesResponse(request.Draw, paged, tickets.Count(), totalCount), JsonRequestBehavior.AllowGet);
+            
+            return Json(new DataTablesResponse(request.Draw, paged, trans.Count(),totalCount), JsonRequestBehavior.AllowGet);
+        }
+
         public PartialViewResult _Transactions(int id)
         {
             var acc = db.Accounts.Find(id);
@@ -120,19 +224,7 @@ namespace Budget.Controllers
                     }
                     db.SaveChanges();
 
-
-                    //return Json(fields, JsonRequestBehavior.AllowGet);
                     return RedirectToAction("Details", "Accounts", new { id = id });
-
-                    ////relative server path
-                    //var filePath = "/Uploads/";
-                    //// path on physical drive on server
-                    //var absPath = Server.MapPath("~" + filePath);
-                    //// media url for relative path
-                    //tatt.FileUrl = filePath + attach.FileName;
-                    ////save image
-                    //tatt.FilePath = Path.Combine(absPath, attach.FileName);
-                    //attach.SaveAs(tatt.FilePath);
                 }
             }
             return Json(" ", JsonRequestBehavior.AllowGet);
@@ -283,7 +375,7 @@ namespace Budget.Controllers
             tbt.Types = db.CategoryTypes.ToList();
             tbt.Categories = hh.Categories.ToList();
             var tod = System.DateTimeOffset.Now;
-            tbt.Transactions = hh.Accounts.SelectMany(t => t.Transactions).Where(d=>d.TransDate.Year==tod.Year).ToList();
+            tbt.Transactions = hh.Accounts.SelectMany(t => t.Transactions).Where(d=>d.TransDate.Year==tod.Year && d.TransDate.Month == tod.Month).OrderByDescending(a=>a.TransDate).ToList();
             return View(tbt);
         }
         [Route ("TransactionsByCategory")]
@@ -293,7 +385,7 @@ namespace Budget.Controllers
             var hh = db.Households.Find(Convert.ToInt32(User.Identity.GetHouseholdId()));
             tcm.Categories = hh.Categories.ToList();
             var tod = System.DateTimeOffset.Now;
-            tcm.Transactions = hh.Accounts.SelectMany(t => t.Transactions).Where(d => d.TransDate.Year == tod.Year).ToList();
+            tcm.Transactions = hh.Accounts.SelectMany(t => t.Transactions).Where(d => d.TransDate.Year == tod.Year && d.TransDate.Month == tod.Month).OrderByDescending(a=>a.TransDate).ToList();
             return View(tcm);
         }
 

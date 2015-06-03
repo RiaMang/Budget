@@ -91,7 +91,7 @@ namespace Budget.HelperExtensions
         public static string genRandom(this string s)
         {
             // selected characters
-            string chars = "2346789ABCDEFGHJKLMNPQRTUVWXYZabcdefghjkmnpqrtuvwxyz";
+            string chars = "2346789ABCDEFGHJKLMNPQRTUVWXYZabcdefghjkmnpqrtuvwxyz-@#$%^&*()!~";
             // create random generator
             Random rnd = new Random();
 

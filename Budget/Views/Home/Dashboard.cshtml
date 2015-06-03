@@ -82,6 +82,7 @@
                                     <th>
                                         @Html.DisplayNameFor(model => model.Amount)
                                     </th>
+                                    
                                     <th>
                                         @Html.DisplayNameFor(model => model.RecAmount)
                                     </th>
@@ -106,9 +107,15 @@
                                         <td>
                                             @Html.DisplayFor(model => trans.Amount)
                                         </td>
+                                        @if(Decimal.Compare(trans.Amount, trans.RecAmount) == 0)
+                                        {
+                                            <td><label><input type="checkbox" checked /></label></td> 
+                                        }
+                                        else { 
                                         <td>
-                                            @Html.DisplayFor(model => trans.RecAmount)
+                                             @Html.DisplayFor(model => trans.RecAmount)
                                         </td>
+                                        }
                                         <td>
                                             @Html.DisplayFor(model => trans.UpdatedBy)
                                         </td>
@@ -126,61 +133,105 @@
         <!---End Table-->
         <div class="row">
             <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-                <div id="chart1">
+                <div class="widget">
+                    <div class="widget-header bordered-bottom bordered-blue">
+                        <span class="widget-caption"> Expenses Vs Budget for the month</span>
+                    </div>
+                    <div class="widget-body">
+                        <div id="chart1">
 
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+            <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                <div class="widget">
+                    <div class="widget-header bordered-bottom bordered-blue">
+                        <span class="widget-caption"> Expenses for the Month</span>
+                    </div>
+                    <div class="widget-body">
+                        <div id="chart2">
+
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+
+                </div>
+    <div class="row">
+        <div class="widget">
+            <div class="widget-header bordered-bottom bordered-blue">
+                <span class="widget-caption"> Monthly Expenses, Income and Budget</span>
+            </div>
+            <div class="widget-body">
+                <div id="MonthlyChart">
+
+                </div>
                 </div>
             </div>
-            <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-                <div id="chart2">
-
-                </div>
             </div>
 
         </div>
 
-    </div>
 
+        @section scripts {
+        <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+        <script type="text/javascript" src="//cdn.datatables.net/1.10.6/js/jquery.dataTables.min.js"></script>
 
-@section scripts {
-    <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
-<script type="text/javascript" src="//cdn.datatables.net/1.10.6/js/jquery.dataTables.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                $.post('@Url.Action("GetChart", "Home")').then(function (response) {
 
-    <script>
-        $(document).ready(function () {
-            $.post('@Url.Action("GetChart", "Home")').then(function (response) {
-                console.log(response.totalExpense);
-                console.log(response);
-                $('#exp').text('$' + response.totalExpense);
-                $('#bud').text('$' + response.totalBudget);
-                $('#acc').text('$' + response.totalAcc);
-                new Morris.Bar({
-                    // ID of the element in which to draw the chart.
-                    element: 'chart1',
-                    // Chart data records -- each entry in this array corresponds to a point on
-                    // the chart.
-                    data: response.bar,
-                    // The name of the data record attribute that contains x-values.
-                    xkey: 'Name',
-                    // A list of names of data record attributes that contain y-values.
-                    ykeys: ['Actual', 'Budgeted'],
-                    // Labels for the ykeys -- will be displayed when you hover over the
-                    // chart.
-                    labels: ['Expenses to Date', 'Amount Budgeted'],
-                    resize: true
+                    $('#exp').text('$' + response.totalExpense);
+                    $('#bud').text('$' + response.totalBudget);
+                    $('#acc').text('$' + response.totalAcc);
+                    new Morris.Bar({
+                        // ID of the element in which to draw the chart.
+                        element: 'chart1',
+                        // Chart data records -- each entry in this array corresponds to a point on
+                        // the chart.
+                        data: response.bar,
+                        // The name of the data record attribute that contains x-values.
+                        xkey: 'Name',
+                        // A list of names of data record attributes that contain y-values.
+                        ykeys: ['Actual', 'Budgeted'],
+                        // Labels for the ykeys -- will be displayed when you hover over the
+                        // chart.
+                        labels: ['Expenses to Date', 'Amount Budgeted'],
+                        resize: true
+                    });
+                    new Morris.Donut({
+                        element: 'chart2',
+                        data: response.donut,
+                        //label: 'Name',
+                        //value: 'Value',
+                        resize: true
+                    });
                 });
-                new Morris.Donut({
-                    element: 'chart2',
-                    data: response.donut,
-                    //label: 'Name',
-                    //value: 'Value',
-                    resize: true
+
+                $.post('@Url.Action("GetMonthly","Home")').then(function (response) {
+                    console.log(response);
+                    new Morris.Bar({
+                        // ID of the element in which to draw the chart.
+                        element: 'MonthlyChart',
+                        // Chart data records -- each entry in this array corresponds to a point on
+                        // the chart.
+                        data: response,
+                        // The name of the data record attribute that contains x-values.
+                        xkey: 'month',
+                        // A list of names of data record attributes that contain y-values.
+                        ykeys: ['income', 'expense', 'budget'],
+                        // Labels for the ykeys -- will be displayed when you hover over the
+                        // chart.
+                        labels: ['Income to Date', 'Expenses to Date', 'Amount Budgeted'],
+                        resize: true
+                    });
                 });
+                $('#Trans').DataTable();
             });
-            $('#Trans').DataTable();
-        });
-    </script>
-}
+        </script>
+        }
 
 
-               
+

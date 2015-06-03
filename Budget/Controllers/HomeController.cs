@@ -95,6 +95,42 @@ namespace Budget.Controllers
             return Content(JsonConvert.SerializeObject(result), "application/json");
         }
 
+        public ActionResult GetMonthly()
+        {
+            var household = db.Households.Find(User.Identity.GetHouseholdId<int>());
+            var monthsToDate = Enumerable.Range(1, DateTime.Today.Month)
+                            .Select(m => new DateTime(DateTime.Today.Year, m, 1))
+                            .ToList();
+
+            var sums = from month in monthsToDate
+                        select new
+                        {
+                           month = month.ToString("MMM"),
+ 
+                           income = (from account in household.Accounts
+                                           from transaction in account.Transactions
+                                           where (transaction.Category.CategoryType.Name == "Income") && transaction.TransDate.Month == month.Month
+                                           select transaction.Amount).DefaultIfEmpty().Sum(),
+ 
+                           expense = (from account in household.Accounts
+                                              from transaction in account.Transactions
+                                              where transaction.Category.CategoryType.Name == "Expense" && transaction.TransDate.Month == month.Month
+                                             select transaction.Amount).DefaultIfEmpty().Sum(),
+ 
+                           budget = household.BudgetItems.Select(b=>b.Amount).DefaultIfEmpty().Sum(),
+                                             //budget = household.BudgetItems.Select(b => b.Amount * (b.Frequency / 12)).DefaultIfEmpty().Sum()
+                        };
+                        
+              //var barData = new {
+              //    income = sums.ToDictionary(k=> k.month, v=>v.income),
+              //      expense = sums.ToDictionary(k=>k.month, v=>v.expense),
+              //      budget = sums.ToDictionary(k=>k.month, v=>v.budget)                    
+              //          };
+
+
+              return Content(JsonConvert.SerializeObject(sums), "application/json");
+        }
+
         [AuthorizeHouseholdRequired]
         public PartialViewResult _RecentTransactions()
         {
