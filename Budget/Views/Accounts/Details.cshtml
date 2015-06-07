@@ -20,12 +20,13 @@
             </div>
             <div class="col-md-4">
                 <div class="form-group">
-                    <button class="btn btn-default" type="submit">Submit</button>
+                    <button type="submit">Submit</button>
                 </div>
             </div>
         </form>
 
     </div>
+
     <div class="row">
         <div class="col-md-10">
             <div class="well with-header  with-footer">
@@ -118,6 +119,7 @@
         </div>
         
     </div>
+    
     
 
 </div>
@@ -214,28 +216,14 @@
                 ]
                 });
                       
-                   // $('#Trans').DataTable();
-                    $('.buton').click(function () {
+                    //$('#Trans').DataTable();
+                    $('body').on('click','.buton',function() {
+                    //$('.buton').click(function () {
+                        console.log($(this).attr('data-id'));
                         $('#formdata').attr('value', $(this).attr('data-id'));
                         $('.Desc').text($(this).attr('data-description'));
                         $('.Amt').text($(this).data('amount'));
                     });
-
-                    //$('.ebuton').click(function () {
-
-
-                    //    $.ajax({
-                    //        type: "GET",
-                    //        url: "/Transactions/Edit/" + $(this).data('id'),
-                    //        data: function (d) {
-                    //            d.id = $(this).data('id')
-                    //        },
-
-                    //    }).then(function (response) {
-                    //        $('#edit').replaceWith(response);
-                    //        //console.log(response);
-                    //    })
-                    //});
                 });
             </script>
 }

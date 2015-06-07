@@ -219,10 +219,22 @@ namespace Budget.Controllers
                             tr.RecAmount = Convert.ToDecimal(fields[1]);
                             tr.CategoryId = Convert.ToInt32(fields[2]);
                             db.Transactions.Add(tr);
+                            var acc = db.Accounts.Find(tr.AccountId);
+                            var cat = db.Categories.Find(tr.CategoryId);
+                            if (cat.CategoryTypeId == 2) // Expense
+                            {
+                                acc.Balance -= tr.Amount;
+                            }
+                            else
+                            {
+                                acc.Balance += tr.Amount;
+                            }
+                            db.Entry(acc).Property("Balance").IsModified = true;
+                            db.SaveChanges();
                         }
 
                     }
-                    db.SaveChanges();
+                    //db.SaveChanges();
 
                     return RedirectToAction("Details", "Accounts", new { id = id });
                 }
