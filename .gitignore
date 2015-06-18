@@ -231,3 +231,4 @@ $RECYCLE.BIN/
 *.lnk
 Budget/Web.config
 Budget/Views/Web.config
+Budget/__web.config
