@@ -45,7 +45,7 @@ namespace Budget.Controllers
         public ActionResult GetChart()
         {
             var hh = db.Households.Find(User.Identity.GetHouseholdId<int>());
-
+            
             var donut = (from c in hh.Categories
                          where c.CategoryType.Name=="Expense"
                         let sum = (from b in c.BudgetItems
@@ -64,7 +64,6 @@ namespace Budget.Controllers
         {
             var hh = db.Households.Find(Convert.ToInt32(User.Identity.GetHouseholdId()));
             ViewBag.CategoryId = new SelectList(hh.Categories, "Id", "Name");
-            //ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name");
             return PartialView();
         }
 

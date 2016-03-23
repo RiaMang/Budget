@@ -21,6 +21,14 @@ namespace Budget.Controllers
         [AllowAnonymous]
         public ActionResult Index()
         {
+
+            //Helper helper = new Helper();
+            //var hh = helper.GetHousehold(User.Identity.GetUserId());
+            //if(hh == null)
+            //{ }
+            //var userId = User.Identity.GetUserId();
+            //userId.GetHousehold();
+
             return View();
         }
 
@@ -28,6 +36,7 @@ namespace Budget.Controllers
         public ActionResult Dashboard()
         {
             var hh = db.Households.Find(Convert.ToInt32(User.Identity.GetHouseholdId()));
+            
             List<Transaction> model = new List<Transaction>();
             var accounts = db.Accounts.Where(a => a.HouseholdId == hh.Id).ToList();
             var tod = System.DateTimeOffset.Now;
@@ -109,7 +118,7 @@ namespace Budget.Controllers
  
                            income = (from account in household.Accounts
                                            from transaction in account.Transactions
-                                           where (transaction.Category.CategoryType.Name == "Income") && transaction.TransDate.Month == month.Month
+                                           where transaction.Category.CategoryType.Name == "Income" && transaction.TransDate.Month == month.Month
                                            select transaction.Amount).DefaultIfEmpty().Sum(),
  
                            expense = (from account in household.Accounts

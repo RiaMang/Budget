@@ -139,6 +139,7 @@ namespace Budget.Controllers
             {
                  cat = db.Categories.Where(c=>c.Name == "MiscExpense").FirstOrDefault();
             }
+            
             // change cat of budgetitems to Misc
             var bItems = db.BudgetItems.Where(b=>b.CategoryId == category.Id);
             foreach (var bi in bItems)

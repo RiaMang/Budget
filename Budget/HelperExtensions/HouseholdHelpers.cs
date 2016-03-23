@@ -13,12 +13,30 @@ namespace Budget.HelperExtensions
 {
     public static class HouseholdHelpers
     {
-        private static ApplicationDbContext db = new ApplicationDbContext();
+       
         
         public static ICollection<ApplicationUser> UsersInHousehold(this Household h)
         {
             return h.Users.ToList();
         }
+        
+
+        public static void AddCategories(this Household h)
+        {
+            Category[] c ={
+                new Category { Name = "Salary", CategoryTypeId = 1, HouseholdId = h.Id, }, //type 1 = Income, 2= Expense
+                new Category {Name = "Bills", CategoryTypeId = 2, HouseholdId = h.Id, },
+                new Category {Name = "Transportation", CategoryTypeId = 2, HouseholdId = h.Id, },
+                 new Category {Name = "Food", CategoryTypeId = 2, HouseholdId = h.Id, },
+                  new Category {Name = "Rent", CategoryTypeId = 2, HouseholdId = h.Id, },
+                  new Category { Name = "MiscIncome", CategoryTypeId = 1, HouseholdId = h.Id, }, //type 1 = Income, 2= Expense
+                new Category {Name = "MiscExpense", CategoryTypeId = 2, HouseholdId = h.Id, }
+              };
+            db.Categories.AddRange(c);
+            db.SaveChanges();
+        }
+
+        private static ApplicationDbContext db = new ApplicationDbContext();
 
         public static void InviteUserToHousehold(this Invitation invite, ApplicationUser user)
         {
@@ -72,20 +90,23 @@ namespace Budget.HelperExtensions
             return true;
         }
 
-        public static void AddCategories(this Household h)
-        {
-            Category[] c ={
-                new Category { Name = "Salary", CategoryTypeId = 1, HouseholdId = h.Id, }, //type 1 = Income, 2= Expense
-                new Category {Name = "Bills", CategoryTypeId = 2, HouseholdId = h.Id, },
-                new Category {Name = "Transportation", CategoryTypeId = 2, HouseholdId = h.Id, },
-                 new Category {Name = "Food", CategoryTypeId = 2, HouseholdId = h.Id, },
-                  new Category {Name = "Rent", CategoryTypeId = 2, HouseholdId = h.Id, },
-                  new Category { Name = "MiscIncome", CategoryTypeId = 1, HouseholdId = h.Id, }, //type 1 = Income, 2= Expense
-                new Category {Name = "MiscExpense", CategoryTypeId = 2, HouseholdId = h.Id, }
-              };
-            db.Categories.AddRange(c);
-            db.SaveChanges();
-        }
+
+
+
+        //public static void AddCategories(this Household h)
+        //{
+        //    Category[] c ={
+        //        new Category { Name = "Salary", CategoryTypeId = 1, HouseholdId = h.Id, }, //type 1 = Income, 2= Expense
+        //        new Category {Name = "Bills", CategoryTypeId = 2, HouseholdId = h.Id, },
+        //        new Category {Name = "Transportation", CategoryTypeId = 2, HouseholdId = h.Id, },
+        //         new Category {Name = "Food", CategoryTypeId = 2, HouseholdId = h.Id, },
+        //          new Category {Name = "Rent", CategoryTypeId = 2, HouseholdId = h.Id, },
+        //          new Category { Name = "MiscIncome", CategoryTypeId = 1, HouseholdId = h.Id, }, //type 1 = Income, 2= Expense
+        //        new Category {Name = "MiscExpense", CategoryTypeId = 2, HouseholdId = h.Id, }
+        //      };
+        //    db.Categories.AddRange(c);
+        //    db.SaveChanges();
+        //}
 
 
         public static string genRandom(this string s)

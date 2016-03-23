@@ -93,7 +93,7 @@
             <div id="editView"> </div>
         </div>
 </div>
-
+</div>
 @section scripts{
     <script type="text/javascript">
         $(function () {
@@ -102,7 +102,7 @@
                 $('#editView').load('/Accounts/Create');
             });
             $('.ed').click(function () {
-                $('#editView').load('/Accounts/Edit/' + $(this).data('id'));
+                $('#editView').load('/Accounts/_Edit/' + $(this).data('id'));
             });
             //$('.det').click(function () {
 

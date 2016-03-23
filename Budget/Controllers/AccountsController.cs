@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
+using System.Threading.Tasks;
 
 namespace Budget.Models
 {   
@@ -56,13 +57,13 @@ namespace Budget.Models
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Balance")] Account account)
+        public async Task<ActionResult> Create([Bind(Include = "Id,Name,Balance")] Account account)
         {
             if (ModelState.IsValid)
             {
                 account.HouseholdId = Convert.ToInt32(User.Identity.GetHouseholdId());
                 db.Accounts.Add(account);
-                db.SaveChanges();
+                await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
@@ -71,20 +72,16 @@ namespace Budget.Models
         }
 
         // GET: Accounts/Edit/5
-        public PartialViewResult Edit(int? id)
+        public PartialViewResult _Edit(int? id)
         {
-            if (id == null)
-            {
-                //return;
-                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+            
             Account account = db.Accounts.Find(id);
             var hh = db.Households.Find(Convert.ToInt32(User.Identity.GetHouseholdId()));
             if (!hh.Accounts.Contains(account)) // if account id does not belong to household - refuse access
                 account = null;
             
             //ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name", account.HouseholdId);
-            return PartialView("_Edit",account);
+            return PartialView(account);
         }
 
         // POST: Accounts/Edit/5
@@ -100,7 +97,7 @@ namespace Budget.Models
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name", account.HouseholdId);
+            //ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name", account.HouseholdId);
             return View(account);
         }
 

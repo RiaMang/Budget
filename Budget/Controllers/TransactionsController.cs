@@ -182,10 +182,12 @@ namespace Budget.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Upload(int? id, HttpPostedFileBase fileCSV)
         {
+            var hh = db.Households.Find(User.Identity.GetHouseholdId<int>());
             if (fileCSV != null && fileCSV.ContentLength > 0)
             {
                 //check the file name to make sure its an image
                 var ext = Path.GetExtension(fileCSV.FileName).ToLower();
+                
                 if (ext != ".csv")
                     ModelState.AddModelError("fileCSV", "Invalid Format."); // throw an error
             }
@@ -203,6 +205,8 @@ namespace Budget.Controllers
                     //char[] delim = {'\r', '\n'};
                     string [] records = fileContent.Split('\r','\n');
                     string[] fields={" "," "};
+                    var acc = db.Accounts.Find(id);
+                    var balance = acc.Balance;
                     foreach (var rec in records)
                     {
                         if(rec!="")
@@ -217,24 +221,39 @@ namespace Budget.Controllers
                             tr.Description = fields[0];
                             tr.Amount = Convert.ToDecimal(fields[1]);
                             tr.RecAmount = Convert.ToDecimal(fields[1]);
-                            tr.CategoryId = Convert.ToInt32(fields[2]);
-                            db.Transactions.Add(tr);
-                            var acc = db.Accounts.Find(tr.AccountId);
-                            var cat = db.Categories.Find(tr.CategoryId);
-                            if (cat.CategoryTypeId == 2) // Expense
+                            var type = fields[3];
+                            var Category = hh.Categories.FirstOrDefault(c=>c.Name == fields[2]);
+                            if (Category != null)
+                                tr.CategoryId = Category.Id;
+                            else
                             {
-                                acc.Balance -= tr.Amount;
+                                if (type == "Expense")
+                                    tr.CategoryId = hh.Categories.FirstOrDefault(z => z.Name == "MiscExp").Id;
+                                else
+                                    tr.CategoryId = hh.Categories.FirstOrDefault(z => z.Name == "MiscInc").Id;
+                            }
+                               
+                               
+                            db.Transactions.Add(tr);
+                           
+                            var cat = db.Categories.Find(tr.CategoryId);
+                            if (cat.CategoryType.Name == "Expense") // Expense
+                            {
+                                balance -= tr.Amount;
                             }
                             else
                             {
-                                acc.Balance += tr.Amount;
+                                balance += tr.Amount;
                             }
-                            db.Entry(acc).Property("Balance").IsModified = true;
-                            db.SaveChanges();
+                            
+                            //db.SaveChanges();
                         }
 
                     }
-                    //db.SaveChanges();
+                    
+                    acc.Balance = balance;
+                    db.Entry(acc).Property("Balance").IsModified = true;
+                    db.SaveChanges();
 
                     return RedirectToAction("Details", "Accounts", new { id = id });
                 }
@@ -290,6 +309,9 @@ namespace Budget.Controllers
                 var oldTr = (from t in db.Transactions.AsNoTracking()
                             where t.Id == tr.Id
                             select t).FirstOrDefault();
+
+                //oldTr = db.Transactions.AsNoTracking().FirstOrDefault(c=> c.Id == tr.Id);
+
                 var acc = db.Accounts.Find(oldTr.AccountId);
                 var cat = db.Categories.Find(oldTr.CategoryId);
                 if (cat.CategoryTypeId == 2) // Expense
@@ -303,7 +325,7 @@ namespace Budget.Controllers
 
                 tr.UpdatedBy = db.Users.Find(User.Identity.GetUserId()).Name;
                 db.Entry(tr).State = EntityState.Modified;      // Edit the transaction record 
-                //db.Accounts.Attach(acc);
+                
                 db.Entry(acc).State = EntityState.Modified;     // update the old account balance
                 db.SaveChanges();                           
 
@@ -390,6 +412,7 @@ namespace Budget.Controllers
             tbt.Transactions = hh.Accounts.SelectMany(t => t.Transactions).Where(d=>d.TransDate.Year==tod.Year && d.TransDate.Month == tod.Month).OrderByDescending(a=>a.TransDate).ToList();
             return View(tbt);
         }
+
         [Route ("TransactionsByCategory")]
         public ActionResult TransByCat()
         {
