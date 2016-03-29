@@ -228,9 +228,9 @@ namespace Budget.Controllers
                             else
                             {
                                 if (type == "Expense")
-                                    tr.CategoryId = hh.Categories.FirstOrDefault(z => z.Name == "MiscExp").Id;
+                                    tr.CategoryId = hh.Categories.FirstOrDefault(z => z.Name == "MiscExpense").Id;
                                 else
-                                    tr.CategoryId = hh.Categories.FirstOrDefault(z => z.Name == "MiscInc").Id;
+                                    tr.CategoryId = hh.Categories.FirstOrDefault(z => z.Name == "MiscIncome").Id;
                             }
                                
                                
