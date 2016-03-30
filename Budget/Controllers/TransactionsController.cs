@@ -25,11 +25,12 @@ namespace Budget.Controllers
         }
 
 
-        public JsonResult GetTransactions([ModelBinder(typeof(DataTablesBinder))] IDataTablesRequest request)
+        public JsonResult GetTransactions([ModelBinder(typeof(DataTablesBinder))] IDataTablesRequest request, int id)
         {
             var hh = db.Households.Find(User.Identity.GetHouseholdId<int>());
-            var trans = hh.Accounts.SelectMany(a => a.Transactions);
-
+            var account = db.Accounts.Find(id);
+            //var trans = hh.Accounts.SelectMany(a => a.Transactions);
+            var trans = account.Transactions.AsQueryable();
             var totalCount = trans.Count();
             var search = request.Search.Value;
 

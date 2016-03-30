@@ -92,6 +92,23 @@ namespace Budget.Controllers
             }
         }
 
+        [AllowAnonymous]
+        public async Task<ActionResult> Guest()
+        {
+            db.Database.ExecuteSqlCommand("RemoveGuestHousehold");
+            db.Database.ExecuteSqlCommand("AddGuestHousehold");
+
+            var user = UserManager.FindByEmail("hemagk@yahoo.com");
+            if (user != null)
+            {
+                await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                return RedirectToAction("Dashboard", "Home");
+            }
+            else
+            {
+                return RedirectToAction("Login");
+            }
+        }
         //
         // GET: /Account/VerifyCode
         [AllowAnonymous]

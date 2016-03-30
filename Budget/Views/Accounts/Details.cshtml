@@ -192,7 +192,7 @@
                         "url": "@Url.Action("GetTransactions","Transactions")",
                         "type": "Post",
                         "data": function (d) {
-                            
+                            d.id = $('input[name=id]').val();
                             // d.custom = $('#myInput').val();
                             // etc
                         }
