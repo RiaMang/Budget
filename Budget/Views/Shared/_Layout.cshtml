@@ -125,7 +125,7 @@ Purchase: http://wrapbootstrap.com
                         </a>
                     </li>
                     <!--Group / Household-->
-                    <li> <!-- class=@{ViewContext.RouteData.Values["action"].ToString() == "Household" ? "active" : ""}-->
+                    <li> <!-- class={ViewContext.RouteData.Values["action"].ToString() == "Household" ? "active" : ""}-->
                         <a href="@Url.Action("Household", "home")">
                             <i class="menu-icon fa fa-users"></i>
                             <span class="menu-text"> Group </span> 

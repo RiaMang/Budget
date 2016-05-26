@@ -46,10 +46,10 @@ namespace Budget.Models
         }
 
         // GET: Accounts/Create
-        public PartialViewResult Create()
+        public PartialViewResult _Create()
         {
-            //ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name");
-            return PartialView("_Create");
+            //ViewBag.Household = new SelectList(db.Households, "Id", "Name");
+            return PartialView();
         }
 
         // POST: Accounts/Create

@@ -135,9 +135,20 @@
                     resize: true
                 });
             });
+
+
+
+            //$('.ed').click(function(){
+            //    $('#editVeiw').load('/BudgetItems/Edit/' + $(this).data('id'));
+            //});
+
+
+
             $('body').on('click','.ed',function () {
                 $('#editView').load('/BudgetItems/edit/' + $(this).data('id'));
             });
+
+
             $('.buton').click(function () {
 
                 $('#formdata').attr('value', $(this).attr('data-id'));
